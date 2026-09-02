@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nebula Analytics — SaaS Dashboard Demo · Brian Laureano</title>
+<meta name="description" content="A real-time SaaS analytics dashboard — live charts, KPIs, roles and a data table. Demo build by Brian Laureano." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0b0f1a; --panel:#111726; --panel-2:#0e1420; --line:rgba(255,255,255,.07);
+    --ink:#eef2fb; --muted:#8b93a7; --faint:#5b6478;
+    --brand:#6d5efc; --brand-2:#9a8bff; --cyan:#26d0c8; --lime:#7be08a; --amber:#ffb23e; --rose:#ff5a7a;
+    --grad:linear-gradient(135deg,var(--brand),var(--cyan));
+    --radius:16px; --ease:cubic-bezier(.22,1,.36,1);
+    --e-out:cubic-bezier(.16,1,.3,1);      /* entrance, gentle overshoot feel */
+    --e-spring:cubic-bezier(.34,1.56,.64,1); /* anticipation/overshoot */
+    /* validated categorical palette (CVD-safe on this surface) */
+    --cat1:#8778ff; --cat2:#149c91; --cat3:#b17f14; --cat4:#cc5b8f;
+  }
+  html[data-theme="light"]{
+    --bg:#f4f6fc; --panel:#ffffff; --panel-2:#f7f9ff; --line:rgba(16,24,48,.08);
+    --ink:#141a2b; --muted:#5c6580; --faint:#8b93a7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;
+    font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3,.num{font-family:"Space Grotesk","Inter",sans-serif}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--brand);color:#fff}
+
+  .app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+
+  /* ---------- sidebar ---------- */
+  .side{background:var(--panel-2);border-right:1px solid var(--line);padding:1.4rem 1rem;display:flex;flex-direction:column;gap:1.6rem;position:sticky;top:0;height:100vh}
+  .brand{display:flex;align-items:center;gap:.65rem;padding:.2rem .4rem}
+  .brand__mark{width:34px;height:34px;border-radius:10px;background:var(--grad);display:grid;place-items:center;font-weight:700;color:#fff;font-family:"Space Grotesk",sans-serif;box-shadow:0 8px 20px -8px var(--brand)}
+  .brand__name{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.05rem;letter-spacing:-.01em}
+  .brand__name small{display:block;font-family:"Inter";font-weight:500;font-size:.62rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+  .nav-group{display:flex;flex-direction:column;gap:.2rem}
+  .nav-group__t{font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:var(--faint);padding:.4rem .6rem}
+  .nav-item{display:flex;align-items:center;gap:.7rem;padding:.6rem .7rem;border-radius:10px;color:var(--muted);font-weight:500;cursor:pointer;transition:.2s var(--ease);position:relative}
+  .nav-item svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .nav-item:hover{background:var(--panel);color:var(--ink)}
+  .nav-item.is-active{background:var(--panel);color:var(--ink)}
+  .nav-item.is-active::before{content:"";position:absolute;left:-1rem;top:22%;bottom:22%;width:3px;border-radius:3px;background:var(--grad)}
+  .nav-item .badge{margin-left:auto;font-size:.6rem;background:var(--brand);color:#fff;border-radius:100px;padding:.1rem .45rem;font-weight:600}
+  .side__foot{margin-top:auto;display:flex;align-items:center;gap:.6rem;padding:.6rem;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+  .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--amber),var(--rose));display:grid;place-items:center;font-weight:700;color:#fff;font-size:.8rem}
+  .side__foot b{font-size:.8rem;display:block}.side__foot small{color:var(--muted);font-size:.66rem}
+
+  /* ---------- main ---------- */
+  .main{padding:1.4rem clamp(1rem,2.2vw,2rem) 3rem;min-width:0}
+  .topbar{display:flex;align-items:center;gap:1rem;margin-bottom:1.6rem;flex-wrap:wrap}
+  .topbar h1{font-size:1.5rem;letter-spacing:-.02em}
+  .topbar h1 span{color:var(--muted);font-weight:500;font-size:.9rem;display:block;font-family:"Inter"}
+  .search{margin-left:auto;display:flex;align-items:center;gap:.5rem;background:var(--panel);border:1px solid var(--line);border-radius:100px;padding:.55rem .9rem;color:var(--muted);min-width:200px}
+  .search input{background:none;border:0;color:var(--ink);outline:none;font-family:inherit;font-size:.85rem;width:100%}
+  .search svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;flex:none}
+  .seg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:100px;padding:.25rem}
+  .seg button{border:0;background:none;color:var(--muted);font-family:inherit;font-size:.75rem;font-weight:600;padding:.4rem .85rem;border-radius:100px;cursor:pointer;transition:.2s}
+  .seg button.is-on{background:var(--grad);color:#fff}
+  .icon-btn{width:38px;height:38px;display:grid;place-items:center;background:var(--panel);border:1px solid var(--line);border-radius:11px;color:var(--muted);cursor:pointer;transition:.2s}
+  .icon-btn:hover{color:var(--ink);border-color:var(--brand)}
+  .icon-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+
+  /* ---------- grid ---------- */
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1rem}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:1.2rem;
+    transition:transform .4s var(--e-out),box-shadow .4s var(--e-out),border-color .3s}
+  .kpi{grid-column:span 3;cursor:default}
+  .kpi:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--brand) 45%,var(--line));
+    box-shadow:0 22px 44px -26px var(--brand)}
+  .kpi:hover .kpi__ico{transform:scale(1.08) rotate(-4deg)}
+  .kpi__ico{transition:transform .4s var(--e-spring)}
+  @media(max-width:1100px){.kpi{grid-column:span 6}}
+  .kpi__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+  .kpi__label{color:var(--muted);font-size:.75rem;font-weight:500}
+  .kpi__ico{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:color-mix(in srgb,var(--brand) 18%,transparent);color:var(--brand-2)}
+  .kpi__ico svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+  .kpi__val{font-size:1.7rem;font-weight:700;letter-spacing:-.02em}
+  .kpi__row{display:flex;align-items:flex-end;justify-content:space-between;gap:.5rem;margin-top:.3rem}
+  .delta{font-size:.72rem;font-weight:600;display:inline-flex;align-items:center;gap:.2rem}
+  .delta.up{color:var(--lime)}.delta.down{color:var(--rose)}
+  .spark{width:76px;height:34px;flex:none}
+
+  .col-8{grid-column:span 8}.col-4{grid-column:span 4}.col-6{grid-column:span 6}.col-12{grid-column:span 12}
+  @media(max-width:1100px){.col-8,.col-4,.col-6{grid-column:span 12}}
+  .card__head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;gap:1rem}
+  .card__head h3{font-size:1rem;font-weight:600}
+  .card__head p{color:var(--muted);font-size:.72rem;margin-top:.1rem}
+  .legend{display:flex;gap:1rem;font-size:.72rem;color:var(--muted)}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:.35rem;vertical-align:middle}
+
+  .chart-wrap{position:relative;height:260px;cursor:crosshair}
+  svg.line{width:100%;height:100%;overflow:visible}
+  /* crosshair + tooltip */
+  .cross{position:absolute;top:0;bottom:22px;width:1px;background:var(--line);pointer-events:none;opacity:0;transition:opacity .15s;z-index:3}
+  .cross.on{opacity:1}
+  .cdot{position:absolute;width:11px;height:11px;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;
+    opacity:0;transition:opacity .15s;z-index:4;box-shadow:0 0 0 3px var(--panel)}
+  .cdot.on{opacity:1}
+  .chart-tip{position:absolute;z-index:6;pointer-events:none;background:var(--panel);border:1px solid var(--line);
+    border-radius:11px;padding:.6rem .75rem;min-width:150px;box-shadow:0 18px 40px -18px rgba(0,0,0,.6);
+    opacity:0;transform:translateY(4px);transition:opacity .18s var(--e-out),transform .18s var(--e-out)}
+  .chart-tip.on{opacity:1;transform:translateY(0)}
+  .chart-tip .tt-date{font-family:"Space Grotesk";font-size:.72rem;color:var(--muted);margin-bottom:.4rem}
+  .chart-tip .tt-row{display:flex;align-items:center;gap:.5rem;font-size:.78rem;margin-top:.2rem}
+  .chart-tip .tt-row i{width:9px;height:9px;border-radius:3px;flex:none}
+  .chart-tip .tt-row b{margin-left:auto;font-family:"Space Grotesk"}
+  .grid-line{stroke:var(--line);stroke-width:1}
+  .axis-label{fill:var(--faint);font-size:10px;font-family:"Space Grotesk"}
+  .area-path{opacity:0}
+  .area-path.in{opacity:1;transition:opacity .6s .3s}
+  .line-path{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset 1.6s var(--ease)}
+  .line-path.in{stroke-dashoffset:0}
+  .dot{opacity:0}.dot.in{opacity:1;transition:opacity .3s}
+
+  /* donut */
+  .donut-wrap{display:flex;align-items:center;gap:1.2rem}
+  .donut{width:150px;height:150px;flex:none}
+  .donut circle{fill:none;stroke-width:16;transform:rotate(-90deg);transform-origin:50% 50%;
+    stroke-dasharray:var(--c);stroke-dashoffset:var(--c);transition:stroke-dashoffset 1.3s var(--ease)}
+  .donut circle.in{stroke-dashoffset:var(--off)}
+  .donut__center{font-size:1.4rem;font-weight:700}
+  .src-list{display:flex;flex-direction:column;gap:.7rem;flex:1}
+  .src{display:flex;align-items:center;gap:.6rem;font-size:.8rem}
+  .src b{margin-left:auto;font-family:"Space Grotesk"}
+  .src i{width:10px;height:10px;border-radius:3px;flex:none}
+
+  /* bars */
+  .bars{display:flex;align-items:flex-end;gap:.5rem;height:170px;padding-top:.5rem}
+  .bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:.5rem;height:100%;justify-content:flex-end}
+  .bar__fill{width:100%;max-width:34px;border-radius:7px 7px 3px 3px;background:var(--grad);height:0;transition:height 1s var(--ease)}
+  .bar:nth-child(even) .bar__fill{background:linear-gradient(var(--cyan),var(--brand))}
+  .bar small{color:var(--muted);font-size:.66rem}
+
+  /* table */
+  table{width:100%;border-collapse:collapse}
+  th{text-align:left;font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:600;padding:.6rem .5rem;border-bottom:1px solid var(--line)}
+  td{padding:.75rem .5rem;border-bottom:1px solid var(--line);font-size:.82rem}
+  tbody tr{transition:.15s}tbody tr:hover{background:var(--panel-2)}
+  .u{display:flex;align-items:center;gap:.6rem}
+  .u .avatar{width:28px;height:28px;font-size:.66rem}
+  .pill{font-size:.66rem;font-weight:600;padding:.2rem .6rem;border-radius:100px}
+  .pill.ok{color:var(--lime);background:color-mix(in srgb,var(--lime) 16%,transparent)}
+  .pill.wait{color:var(--amber);background:color-mix(in srgb,var(--amber) 16%,transparent)}
+  .pill.no{color:var(--rose);background:color-mix(in srgb,var(--rose) 16%,transparent)}
+  .mono{font-family:"Space Grotesk";color:var(--muted)}
+  .t-right{text-align:right}
+
+  .reveal{opacity:0;transform:translateY(18px)}
+  .reveal.in{opacity:1;transform:none;transition:opacity .7s var(--e-out),transform .7s var(--e-out)}
+  /* bar hover */
+  .bar__fill{position:relative}
+  .bar{cursor:default}
+  .bar__val{position:absolute;top:-1.4rem;left:50%;transform:translateX(-50%) translateY(4px);opacity:0;
+    font-family:"Space Grotesk";font-size:.7rem;font-weight:600;color:var(--ink);transition:.2s var(--e-out);white-space:nowrap}
+  .bar:hover .bar__val{opacity:1;transform:translateX(-50%) translateY(0)}
+  .bar:hover .bar__fill{filter:brightness(1.15)}
+
+  @media(max-width:860px){.app{grid-template-columns:1fr}.side{display:none}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="side">
+    <div class="brand">
+      <div class="brand__mark">N</div>
+      <div class="brand__name">Nebula<small>Analytics</small></div>
+    </div>
+    <nav class="nav-group">
+      <span class="nav-group__t">Overview</span>
+      <div class="nav-item is-active"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+      <div class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 3 5-6"/></svg>Analytics</div>
+      <div class="nav-item"><svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/><path d="M22 21a7 7 0 0 0-5-6.7"/></svg>Customers<span class="badge">12</span></div>
+      <div class="nav-item"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5"/></svg>Reports</div>
+    </nav>
+    <nav class="nav-group">
+      <span class="nav-group__t">Workspace</span>
+      <div class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.5-2.4 1a7 7 0 0 0-1.7-1l-.4-2.5h-4l-.4 2.5a7 7 0 0 0-1.7 1l-2.4-1-2 3.5 2 1.5a7 7 0 0 0 0 2l-2 1.5 2 3.5 2.4-1a7 7 0 0 0 1.7 1l.4 2.5h4l.4-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.5-2-1.5c.1-.3.1-.7.1-1z"/></svg>Settings</div>
+      <div class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Help</div>
+    </nav>
+    <div class="side__foot">
+      <div class="avatar">BL</div>
+      <div><b>Brian L.</b><small>Admin</small></div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main class="main">
+    <div class="topbar">
+      <h1>Dashboard <span>Welcome back — here's your operation today.</span></h1>
+      <div class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input placeholder="Search…" aria-label="Search" />
+      </div>
+      <div class="seg" id="range">
+        <button data-r="7">7D</button>
+        <button class="is-on" data-r="30">30D</button>
+        <button data-r="90">90D</button>
+      </div>
+      <button class="icon-btn" id="theme" title="Toggle theme" aria-label="Toggle theme">
+        <svg id="theme-ico" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+
+    <div class="grid">
+      <!-- KPIs -->
+      <div class="card kpi reveal">
+        <div class="kpi__top"><span class="kpi__label">Revenue</span>
+          <span class="kpi__ico"><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span></div>
+        <div class="kpi__val num" data-count="128400" data-prefix="$">$0</div>
+        <div class="kpi__row"><span class="delta up">▲ 12.4%</span><svg class="spark" data-spark="60,52,58,48,54,44,50,40,46,34,38,30,26,22"></svg></div>
+      </div>
+      <div class="card kpi reveal">
+        <div class="kpi__top"><span class="kpi__label">Active users</span>
+          <span class="kpi__ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M17 11h4M19 9v4"/></svg></span></div>
+        <div class="kpi__val num" data-count="8421">0</div>
+        <div class="kpi__row"><span class="delta up">▲ 6.1%</span><svg class="spark" data-spark="30,34,32,38,40,44,42,48,50,54,58,60,64,70"></svg></div>
+      </div>
+      <div class="card kpi reveal">
+        <div class="kpi__top"><span class="kpi__label">Conversion</span>
+          <span class="kpi__ico"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 3 5-6"/></svg></span></div>
+        <div class="kpi__val num" data-count="4.7" data-dec="1" data-suffix="%">0%</div>
+        <div class="kpi__row"><span class="delta up">▲ 0.8pp</span><svg class="spark" data-spark="40,42,38,44,46,50,48,52,56,54,60,58,62,66"></svg></div>
+      </div>
+      <div class="card kpi reveal">
+        <div class="kpi__top"><span class="kpi__label">Churn</span>
+          <span class="kpi__ico"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 8l4 4 4-3 5 6"/></svg></span></div>
+        <div class="kpi__val num" data-count="1.9" data-dec="1" data-suffix="%">0%</div>
+        <div class="kpi__row"><span class="delta down">▼ 0.3pp</span><svg class="spark" data-spark="60,58,62,56,54,50,52,46,44,40,42,38,34,30"></svg></div>
+      </div>
+
+      <!-- Revenue chart -->
+      <div class="card col-8 reveal">
+        <div class="card__head">
+          <div><h3>Revenue overview</h3><p>Gross volume, last 30 days</p></div>
+          <div class="legend"><span><i style="background:var(--brand)"></i>This period</span><span><i style="background:var(--cyan)"></i>Previous</span></div>
+        </div>
+        <div class="chart-wrap" id="chartWrap">
+          <svg class="line" id="lineChart" viewBox="0 0 720 260" preserveAspectRatio="none"></svg>
+          <div class="cross" id="cross"></div>
+          <div class="cdot" id="cdotA" style="background:var(--brand)"></div>
+          <div class="cdot" id="cdotB" style="background:var(--cyan)"></div>
+          <div class="chart-tip" id="chartTip"></div>
+        </div>
+      </div>
+
+      <!-- Traffic sources donut -->
+      <div class="card col-4 reveal">
+        <div class="card__head"><div><h3>Traffic sources</h3><p>Where signups come from</p></div></div>
+        <div class="donut-wrap">
+          <svg class="donut" id="donut" viewBox="0 0 120 120">
+            <circle r="52" cx="60" cy="60" stroke="var(--line)" style="--c:327;--off:327"></circle>
+          </svg>
+          <div class="src-list" id="srcList"></div>
+        </div>
+      </div>
+
+      <!-- Sales by channel bars -->
+      <div class="card col-6 reveal">
+        <div class="card__head"><div><h3>Sales by channel</h3><p>Units this week</p></div></div>
+        <div class="bars" id="bars"></div>
+      </div>
+
+      <!-- Goal / donut small -->
+      <div class="card col-6 reveal">
+        <div class="card__head"><div><h3>Monthly goal</h3><p>$128.4k of $150k target</p></div><span class="pill ok">On track</span></div>
+        <div style="display:flex;flex-direction:column;gap:.9rem;margin-top:.4rem">
+          <div style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)"><span>MRR</span><b class="num" style="color:var(--ink)">$42.1k</b></div>
+          <div style="height:9px;background:var(--panel-2);border-radius:100px;overflow:hidden"><i class="goalbar" style="display:block;height:100%;width:0;background:var(--grad);transition:width 1.4s var(--ease)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)"><span>New customers</span><b class="num" style="color:var(--ink)">312 / 400</b></div>
+          <div style="height:9px;background:var(--panel-2);border-radius:100px;overflow:hidden"><i class="goalbar" data-w="78" style="display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--lime));transition:width 1.4s .2s var(--ease)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)"><span>Expansion revenue</span><b class="num" style="color:var(--ink)">$9.8k</b></div>
+          <div style="height:9px;background:var(--panel-2);border-radius:100px;overflow:hidden"><i class="goalbar" data-w="55" style="display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--rose));transition:width 1.4s .4s var(--ease)"></i></div>
+        </div>
+      </div>
+
+      <!-- Recent transactions -->
+      <div class="card col-12 reveal">
+        <div class="card__head"><div><h3>Recent activity</h3><p>Latest customer transactions</p></div><span class="mono" style="font-size:.72rem">Live • auto-refresh</span></div>
+        <table>
+          <thead><tr><th>Customer</th><th>Plan</th><th>Status</th><th>Date</th><th class="t-right">Amount</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const $ = (s,r=document)=>r.querySelector(s);
+  const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+
+  /* ---------- theme ---------- */
+  $('#theme').addEventListener('click',()=>{
+    const h=document.documentElement, next=h.getAttribute('data-theme')==='dark'?'light':'dark';
+    h.setAttribute('data-theme',next);
+    $('#theme-ico').innerHTML = next==='dark'
+      ? '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>'
+      : '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/>';
+  });
+
+  /* ---------- count-up ---------- */
+  function animateCount(el){
+    const end=parseFloat(el.dataset.count), dec=+(el.dataset.dec||0), pre=el.dataset.prefix||'', suf=el.dataset.suffix||'';
+    if(reduce){ el.textContent=pre+fmt(end,dec)+suf; return; }
+    const t0=performance.now(), dur=1500;
+    function fmt(v,d){ return d? v.toFixed(d) : Math.round(v).toLocaleString('en-US'); }
+    function tick(t){ const p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3);
+      el.textContent=pre+fmt(end*e,dec)+suf; if(p<1) requestAnimationFrame(tick); }
+    requestAnimationFrame(tick);
+  }
+
+  /* ---------- sparklines ---------- */
+  function drawSpark(svg){
+    const pts=svg.dataset.spark.split(',').map(Number);
+    const w=76,h=34,max=Math.max(...pts),min=Math.min(...pts);
+    const x=i=>i/(pts.length-1)*w, y=v=>h-((v-min)/(max-min||1))*(h-4)-2;
+    const d=pts.map((v,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)).join(' ');
+    const up=pts[pts.length-1]>=pts[0], col=up?'var(--lime)':'var(--rose)';
+    svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+    svg.innerHTML=`<path d="${d}" fill="none" stroke="${col}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+  }
+
+  /* ---------- line chart ---------- */
+  const DATA={
+    30:{cur:[42,45,43,50,48,55,53,60,58,66,63,70,68,74,72,80,78,72,84,82,90,88,96,94,102,100,110,108,120,128],
+        prev:[38,40,39,44,43,48,47,52,50,55,53,58,56,60,59,64,62,58,66,64,70,68,72,71,76,75,80,79,86,90]},
+    7:{cur:[92,100,96,108,104,116,128], prev:[80,86,84,90,88,94,102]},
+    90:{cur:Array.from({length:90},(_,i)=>30+i*1.1+Math.sin(i/3)*6),
+        prev:Array.from({length:90},(_,i)=>26+i*0.95+Math.sin(i/3)*5)}
+  };
+  const W=720,H=260, pad={l:8,r:8,t:14,b:22};
+  let LINE=null;   // geometria guardada pro crosshair
+  function dateLabels(n){
+    const out=[], now=new Date(), mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    for(let i=n-1;i>=0;i--){const d=new Date(now);d.setDate(now.getDate()-i);out.push(mon[d.getMonth()]+' '+d.getDate());}
+    return out;
+  }
+  function buildLine(range){
+    const svg=$('#lineChart');
+    const cur=DATA[range].cur.map(v=>+v.toFixed(1)), prev=DATA[range].prev.map(v=>+v.toFixed(1));
+    const all=[...cur,...prev], max=Math.max(...all), min=Math.min(...all)*.9;
+    const x=i=>pad.l+i/(cur.length-1)*(W-pad.l-pad.r);
+    const y=v=>pad.t+(1-(v-min)/(max-min))*(H-pad.t-pad.b);
+    const path=a=>a.map((v,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)).join(' ');
+    const areaD=path(cur)+` L ${x(cur.length-1)} ${H-pad.b} L ${x(0)} ${H-pad.b} Z`;
+    let grid='';
+    for(let g=0;g<=4;g++){const gy=pad.t+g/4*(H-pad.t-pad.b);grid+=`<line class="grid-line" x1="${pad.l}" y1="${gy}" x2="${W-pad.r}" y2="${gy}"/>`;}
+    const tickN=range==7?7:range==30?7:5;
+    let lab='';for(let k=0;k<tickN;k++){const i=Math.round(k/(tickN-1)*(cur.length-1));
+      lab+=`<text class="axis-label" x="${x(i)}" y="${H-6}" text-anchor="middle">${dateLabels(cur.length)[i]}</text>`;}
+    svg.innerHTML=`
+      <defs>
+        <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--brand)" stop-opacity=".38"/>
+          <stop offset="100%" stop-color="var(--brand)" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      ${grid}${lab}
+      <path class="area-path" d="${areaD}" fill="url(#area)"/>
+      <path class="line-path" d="${path(prev)}" stroke="var(--cyan)" style="--len:1600" stroke-opacity=".5"/>
+      <path class="line-path" d="${path(cur)}" stroke="var(--brand)" style="--len:1600"/>
+      <circle class="dot" r="4" cx="${x(cur.length-1)}" cy="${y(cur[cur.length-1])}" fill="var(--brand)" stroke="var(--panel)" stroke-width="3"/>`;
+    // guarda pontos p/ interação (coords do viewBox)
+    LINE={n:cur.length, vbx:cur.map((_,i)=>x(i)), cy:cur.map(y), py:prev.map(y), cv:cur, pv:prev, dates:dateLabels(cur.length)};
+    return svg;
+  }
+  function playLine(svg){
+    requestAnimationFrame(()=>{ $$('.line-path',svg).forEach(p=>p.classList.add('in'));
+      $('.area-path',svg).classList.add('in'); setTimeout(()=>$('.dot',svg)?.classList.add('in'),1200); });
+  }
+
+  /* ---------- crosshair + tooltip (o detalhe que vende) ---------- */
+  function setupCrosshair(){
+    const wrap=$('#chartWrap'), cross=$('#cross'), dA=$('#cdotA'), dB=$('#cdotB'), tip=$('#chartTip');
+    function move(e){
+      if(!LINE) return;
+      const r=wrap.getBoundingClientRect();
+      const px=(e.touches?e.touches[0].clientX:e.clientX)-r.left;
+      const sx=r.width/W, sy=r.height/H;
+      // acha o índice mais próximo pela posição do mouse
+      let idx=0,best=1e9;
+      for(let i=0;i<LINE.n;i++){const d=Math.abs(LINE.vbx[i]*sx-px);if(d<best){best=d;idx=i;}}
+      const cx=LINE.vbx[idx]*sx;
+      cross.style.left=cx+'px'; cross.classList.add('on');
+      dA.style.left=cx+'px'; dA.style.top=(LINE.cy[idx]*sy)+'px'; dA.classList.add('on');
+      dB.style.left=cx+'px'; dB.style.top=(LINE.py[idx]*sy)+'px'; dB.classList.add('on');
+      tip.innerHTML=`<div class="tt-date">${LINE.dates[idx]}</div>
+        <div class="tt-row"><i style="background:var(--brand)"></i>This period<b>$${(LINE.cv[idx]).toFixed(1)}k</b></div>
+        <div class="tt-row"><i style="background:var(--cyan)"></i>Previous<b>$${(LINE.pv[idx]).toFixed(1)}k</b></div>`;
+      tip.classList.add('on');
+      const tw=tip.offsetWidth, left=Math.min(Math.max(cx-tw/2,4),r.width-tw-4);
+      tip.style.left=left+'px'; tip.style.top=Math.max(LINE.cy[idx]*sy-tip.offsetHeight-14,4)+'px';
+    }
+    function leave(){cross.classList.remove('on');dA.classList.remove('on');dB.classList.remove('on');tip.classList.remove('on');}
+    wrap.addEventListener('mousemove',move);
+    wrap.addEventListener('mouseleave',leave);
+    wrap.addEventListener('touchmove',move,{passive:true});
+    wrap.addEventListener('touchend',leave);
+  }
+
+  /* ---------- donut ---------- */
+  const SRC=[['Organic','var(--cat1)',38],['Referral','var(--cat2)',27],['Paid ads','var(--cat3)',22],['Social','var(--cat4)',13]];
+  function buildDonut(){
+    const svg=$('#donut'), C=2*Math.PI*52, list=$('#srcList');
+    let acc=0, ring='';
+    SRC.forEach(([n,c,p])=>{
+      const len=C*p/100, off=C-len;
+      ring+=`<circle r="52" cx="60" cy="60" stroke="${c}" style="--c:${C.toFixed(0)};--off:${off.toFixed(0)};transform:rotate(${(-90+acc/100*360).toFixed(1)}deg)"></circle>`;
+      acc+=p;
+      list.innerHTML+=`<div class="src"><i style="background:${c}"></i>${n}<b>${p}%</b></div>`;
+    });
+    svg.innerHTML=ring+`<text class="donut__center" x="60" y="60" text-anchor="middle" dominant-baseline="central" fill="var(--ink)">8.4k</text>`;
+  }
+  function playDonut(){ $$('#donut circle').forEach(c=>{ if(c.getAttribute('style')?.includes('--off')) requestAnimationFrame(()=>c.classList.add('in')); }); }
+
+  /* ---------- bars ---------- */
+  const BARS=[['Web',72,1840],['iOS',88,2240],['Android',60,1530],['API',44,1120],['Partner',78,1990],['Email',52,1320],['Ads',66,1680]];
+  function buildBars(){
+    const el=$('#bars');
+    el.innerHTML=BARS.map(([n,v,u])=>`<div class="bar"><div class="bar__fill" data-h="${v}"><span class="bar__val">${u.toLocaleString('en-US')}</span></div><small>${n}</small></div>`).join('');
+  }
+  function playBars(){ $$('#bars .bar__fill').forEach((b,i)=>setTimeout(()=>b.style.height=b.dataset.h+'%',i*70)); }
+
+  /* ---------- table ---------- */
+  const ROWS=[
+    ['Amara Okoye','AO','Scale','ok','2 min ago','$1,290'],
+    ['Lucas Meyer','LM','Pro','ok','18 min ago','$490'],
+    ['Sofia Rossi','SR','Pro','wait','1 h ago','$490'],
+    ['Kenji Tanaka','KT','Enterprise','ok','3 h ago','$4,800'],
+    ['Nina Alvarez','NA','Starter','no','5 h ago','$0'],
+    ['Omar Haddad','OH','Scale','ok','Yesterday','$1,290'],
+  ];
+  const STATUS={ok:['ok','Paid'],wait:['wait','Pending'],no:['no','Failed']};
+  function buildTable(){
+    $('#tbody').innerHTML=ROWS.map(([n,ini,plan,st,date,amt])=>{
+      const [cls,txt]=STATUS[st];
+      return `<tr><td><div class="u"><div class="avatar">${ini}</div>${n}</div></td>
+        <td>${plan}</td><td><span class="pill ${cls}">${txt}</span></td>
+        <td class="mono">${date}</td><td class="t-right num">${amt}</td></tr>`;
+    }).join('');
+  }
+
+  /* ---------- range switch ---------- */
+  $('#range').addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b) return;
+    $$('#range button').forEach(x=>x.classList.remove('is-on')); b.classList.add('is-on');
+    const svg=buildLine(+b.dataset.r); playLine(svg);
+  });
+
+  /* ---------- init + reveal on scroll ---------- */
+  buildLine(30); buildDonut(); buildBars(); buildTable();
+  $$('.spark').forEach(drawSpark);
+  setupCrosshair();
+
+  function playCard(el){
+    if(el.dataset.played) return; el.dataset.played='1';
+    $$('[data-count]',el).forEach(animateCount);
+    if(el.querySelector('#lineChart')) playLine($('#lineChart'));
+    if(el.querySelector('#donut')) playDonut();
+    if(el.querySelector('#bars')) playBars();
+    if(el.querySelector('.goalbar')) $$('.goalbar',el).forEach(g=>g.style.width=(g.dataset.w||85)+'%');
+  }
+  // Dashboard = app (não scroll-story): revela tudo no load com stagger.
+  // Robusto dentro de iframe embutido, onde o scroll nunca dispara.
+  const cards=$$('.reveal');
+  cards.forEach((el,i)=>el.style.transitionDelay=(Math.min(i,8)*70)+'ms');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    cards.forEach((el,i)=>{ el.classList.add('in'); setTimeout(()=>playCard(el),140+Math.min(i,8)*70); });
+  }));
+
+  /* nav interactivity */
+  $$('.nav-item').forEach(n=>n.addEventListener('click',()=>{$$('.nav-item').forEach(x=>x.classList.remove('is-active'));n.classList.add('is-active');}));
+})();
+</script>
+</body>
+</html>

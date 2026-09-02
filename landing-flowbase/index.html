@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Flowbase — SaaS Product Landing Demo · Brian Laureano</title>
+<meta name="description" content="A high-converting SaaS product landing page — hero, features, pricing with monthly/yearly toggle, testimonials and FAQ. Demo build by Brian Laureano." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#070a14; --bg-2:#0c1120; --panel:#111830; --line:rgba(255,255,255,.09);
+    --ink:#eaf0ff; --muted:#9aa4c2; --faint:#6b7599;
+    --brand:#6d5efc; --brand-2:#a68bff; --cyan:#33e0d0; --pink:#ff6ad5;
+    --grad:linear-gradient(120deg,var(--brand),var(--cyan));
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3,.g{font-family:"Space Grotesk","Inter",sans-serif;letter-spacing:-.02em}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer}
+  ::selection{background:var(--brand);color:#fff}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 clamp(1.2rem,4vw,2.5rem)}
+  section{position:relative}
+
+  /* glow bg */
+  .glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;pointer-events:none;z-index:0}
+  .g1{width:520px;height:520px;background:var(--brand);top:-140px;left:-80px}
+  .g2{width:420px;height:420px;background:var(--cyan);top:120px;right:-120px;opacity:.32}
+
+  /* nav */
+  .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(7,10,20,.7);border-bottom:1px solid var(--line)}
+  .nav__in{display:flex;align-items:center;gap:2rem;height:66px}
+  .logo{display:flex;align-items:center;gap:.6rem;font-family:"Space Grotesk";font-weight:700;font-size:1.15rem}
+  .logo__m{width:30px;height:30px;border-radius:9px;background:var(--grad);display:grid;place-items:center;color:#fff;box-shadow:0 8px 18px -6px var(--brand)}
+  .nav__links{display:flex;gap:1.6rem;margin-left:1rem;font-size:.9rem;color:var(--muted)}
+  .nav__links a:hover{color:var(--ink)}
+  .nav__cta{margin-left:auto;display:flex;gap:.7rem;align-items:center}
+  @media(max-width:820px){.nav__links{display:none}}
+
+  .btn{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.92rem;padding:.75rem 1.3rem;border-radius:100px;border:1px solid transparent;transition:.25s var(--ease)}
+  .btn--p{background:var(--grad);color:#fff;box-shadow:0 12px 30px -10px var(--brand)}
+  .btn--p:hover{transform:translateY(-2px);box-shadow:0 18px 40px -12px var(--brand)}
+  .btn--g{border-color:var(--line);color:var(--ink);background:rgba(255,255,255,.03)}
+  .btn--g:hover{border-color:var(--brand-2);background:rgba(255,255,255,.06)}
+  .btn--sm{padding:.55rem 1rem;font-size:.85rem}
+
+  /* hero */
+  .hero{text-align:center;padding:clamp(4rem,9vh,8rem) 0 3rem;z-index:1}
+  .tagpill{display:inline-flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--brand-2);background:rgba(109,94,252,.12);border:1px solid rgba(109,94,252,.35);border-radius:100px;padding:.4rem .9rem;margin-bottom:1.6rem}
+  .tagpill b{color:#fff;background:var(--brand);border-radius:100px;padding:.05rem .5rem;font-size:.68rem}
+  .hero h1{font-size:clamp(2.4rem,6vw,4.6rem);line-height:1.03;max-width:16ch;margin:0 auto 1.3rem}
+  .hero h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--muted);font-size:clamp(1.02rem,1.6vw,1.25rem);max-width:52ch;margin:0 auto 2rem}
+  .hero__cta{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+  .hero__meta{margin-top:1.4rem;color:var(--faint);font-size:.82rem;display:flex;gap:1.4rem;justify-content:center;flex-wrap:wrap}
+  .hero__meta b{color:var(--muted)}
+
+  /* app mock */
+  .mock{max-width:940px;margin:3rem auto 0;border-radius:18px;border:1px solid var(--line);overflow:hidden;
+    background:linear-gradient(var(--panel),var(--bg-2));box-shadow:0 60px 120px -40px rgba(0,0,0,.8);position:relative;z-index:1}
+  .mock__bar{display:flex;align-items:center;gap:.5rem;padding:.75rem 1rem;background:rgba(255,255,255,.03);border-bottom:1px solid var(--line)}
+  .mock__bar i{width:11px;height:11px;border-radius:50%;background:#3a4260}
+  .mock__bar i:nth-child(1){background:#ff5f57}.mock__bar i:nth-child(2){background:#febc2e}.mock__bar i:nth-child(3){background:#28c840}
+  .mock__body{display:grid;grid-template-columns:180px 1fr;min-height:340px}
+  .mock__side{border-right:1px solid var(--line);padding:1rem;display:flex;flex-direction:column;gap:.55rem}
+  .mrow{height:11px;border-radius:6px;background:rgba(255,255,255,.06)}
+  .mrow.a{width:70%;background:rgba(109,94,252,.4)}.mrow.b{width:85%}.mrow.c{width:55%}
+  .mock__main{padding:1.3rem;display:flex;flex-direction:column;gap:1rem}
+  .mkpis{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+  .mkpi{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:.9rem}
+  .mkpi b{font-family:"Space Grotesk";font-size:1.4rem;display:block}
+  .mkpi small{color:var(--muted);font-size:.68rem}
+  .mchart{flex:1;display:flex;align-items:flex-end;gap:8px;min-height:120px;padding-top:.5rem}
+  .mchart i{flex:1;background:var(--grad);border-radius:6px 6px 0 0;height:var(--h);opacity:.85;transition:height .9s var(--ease)}
+
+  /* logos */
+  .logos{padding:2.5rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:4rem}
+  .logos p{text-align:center;color:var(--faint);font-size:.76rem;text-transform:uppercase;letter-spacing:.14em;margin-bottom:1.4rem}
+  .logos__row{display:flex;flex-wrap:wrap;gap:2.4rem;justify-content:center;align-items:center;opacity:.65}
+  .logos__row span{font-family:"Space Grotesk";font-weight:700;font-size:1.15rem;color:var(--muted)}
+
+  /* section head */
+  .sh{text-align:center;max-width:44ch;margin:0 auto clamp(2.5rem,5vh,3.5rem)}
+  .sh .k{color:var(--brand-2);font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em}
+  .sh h2{font-size:clamp(1.9rem,4vw,3rem);margin:.6rem 0 .8rem}
+  .sh p{color:var(--muted)}
+  .block{padding:clamp(4rem,8vh,7rem) 0}
+
+  /* features */
+  .feat{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+  @media(max-width:900px){.feat{grid-template-columns:1fr}}
+  .fcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:1.6rem;transition:.35s var(--ease)}
+  .fcard:hover{transform:translateY(-6px);border-color:var(--brand-2)}
+  .fcard .ic{width:46px;height:46px;border-radius:12px;background:rgba(109,94,252,.15);display:grid;place-items:center;color:var(--brand-2);margin-bottom:1rem}
+  .fcard .ic svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .fcard h3{font-size:1.2rem;margin-bottom:.5rem}
+  .fcard p{color:var(--muted);font-size:.92rem}
+  .fcard--wide{grid-column:span 2}@media(max-width:900px){.fcard--wide{grid-column:span 1}}
+
+  /* pricing */
+  .price-toggle{display:flex;align-items:center;gap:.8rem;justify-content:center;margin-bottom:2.2rem;font-size:.9rem;color:var(--muted)}
+  .switch{width:52px;height:28px;border-radius:100px;background:var(--panel);border:1px solid var(--line);position:relative;cursor:pointer;transition:.25s}
+  .switch.on{background:var(--brand)}
+  .switch i{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.25s var(--ease)}
+  .switch.on i{left:27px}
+  .save{color:var(--cyan);font-weight:600;font-size:.8rem}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;align-items:stretch}
+  @media(max-width:900px){.plans{grid-template-columns:1fr;max-width:420px;margin:0 auto}}
+  .plan{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:1.8rem;display:flex;flex-direction:column;gap:1rem}
+  .plan--best{border-color:var(--brand);background:linear-gradient(var(--panel),rgba(109,94,252,.08));position:relative}
+  .plan--best::before{content:"Most popular";position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--grad);color:#fff;font-size:.66rem;font-weight:700;padding:.25rem .8rem;border-radius:100px}
+  .plan h3{font-size:1.1rem}
+  .plan .amt{font-family:"Space Grotesk";font-size:2.6rem;font-weight:700;line-height:1}
+  .plan .amt small{font-size:.9rem;color:var(--muted);font-weight:500}
+  .plan ul{list-style:none;display:flex;flex-direction:column;gap:.6rem;font-size:.9rem;color:var(--muted)}
+  .plan li{display:flex;gap:.5rem;align-items:flex-start}
+  .plan li svg{width:16px;height:16px;stroke:var(--cyan);fill:none;stroke-width:2.5;flex:none;margin-top:.2rem}
+  .plan .btn{width:100%;justify-content:center;margin-top:auto}
+
+  /* testimonials */
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+  @media(max-width:900px){.quotes{grid-template-columns:1fr}}
+  .quote{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:1.5rem}
+  .quote .stars{color:var(--brand-2);letter-spacing:.1em;margin-bottom:.7rem}
+  .quote p{font-size:.95rem;margin-bottom:1.1rem}
+  .quote .who{display:flex;align-items:center;gap:.7rem}
+  .quote .av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.8rem}
+  .quote b{font-size:.86rem;display:block}.quote small{color:var(--muted);font-size:.74rem}
+
+  /* faq */
+  .faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:.7rem}
+  .qa{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .qa__q{width:100%;text-align:left;background:none;border:0;color:var(--ink);font-weight:600;font-size:1rem;padding:1.1rem 1.2rem;display:flex;align-items:center;gap:1rem}
+  .qa__q span{margin-left:auto;transition:.3s;color:var(--brand-2);font-size:1.3rem;line-height:1}
+  .qa.on .qa__q span{transform:rotate(45deg)}
+  .qa__a{max-height:0;overflow:hidden;transition:max-height .35s var(--ease)}
+  .qa__a p{padding:0 1.2rem 1.1rem;color:var(--muted);font-size:.92rem}
+
+  /* cta */
+  .final{text-align:center;background:linear-gradient(120deg,rgba(109,94,252,.16),rgba(51,224,208,.1));border:1px solid var(--line);border-radius:24px;padding:clamp(3rem,7vh,5rem) 1.5rem;margin:2rem 0}
+  .final h2{font-size:clamp(2rem,4.5vw,3.2rem);margin-bottom:1rem}
+  .final p{color:var(--muted);max-width:44ch;margin:0 auto 1.8rem}
+
+  footer{border-top:1px solid var(--line);padding:2.5rem 0;color:var(--faint);font-size:.85rem}
+  .foot{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot__links{display:flex;gap:1.4rem}.foot__links a:hover{color:var(--ink)}
+
+  .reveal{opacity:0;transform:translateY(22px)}
+  .reveal.in{opacity:1;transform:none;transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="glow g1"></div><div class="glow g2"></div>
+
+<nav class="nav"><div class="wrap nav__in">
+  <a class="logo"><span class="logo__m g"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2.2"><path d="M4 7h16M4 12h10M4 17h7"/></svg></span>Flowbase</a>
+  <div class="nav__links"><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#loved">Customers</a><a href="#faq">FAQ</a></div>
+  <div class="nav__cta"><a class="btn btn--g btn--sm">Sign in</a><a class="btn btn--p btn--sm">Start free</a></div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <span class="tagpill"><b>NEW</b> Flowbase 3.0 — AI insights are here</span>
+  <h1>The workspace that turns <em>data into decisions</em>.</h1>
+  <p>Flowbase brings your metrics, customers and team into one fast, beautiful place — so you ship the right thing, faster.</p>
+  <div class="hero__cta"><a class="btn btn--p">Start free — no card</a><a class="btn btn--g">▶ Watch demo</a></div>
+  <div class="hero__meta"><span><b>14-day</b> free trial</span><span><b>4.9/5</b> on G2</span><span><b>2,400+</b> teams</span></div>
+
+  <div class="mock reveal">
+    <div class="mock__bar"><i></i><i></i><i></i></div>
+    <div class="mock__body">
+      <div class="mock__side"><div class="mrow a"></div><div class="mrow b"></div><div class="mrow c"></div><div class="mrow b"></div><div class="mrow c"></div><div class="mrow"></div></div>
+      <div class="mock__main">
+        <div class="mkpis">
+          <div class="mkpi"><b>$128k</b><small>Revenue</small></div>
+          <div class="mkpi"><b>8.4k</b><small>Users</small></div>
+          <div class="mkpi"><b>4.7%</b><small>Conversion</small></div>
+        </div>
+        <div class="mchart" id="mchart"></div>
+      </div>
+    </div>
+  </div>
+</div></header>
+
+<section class="logos"><div class="wrap">
+  <p>Trusted by fast-moving teams</p>
+  <div class="logos__row"><span>Northwind</span><span>Orbit</span><span>Lumen</span><span>Volt</span><span>Cobalt</span><span>Maple</span></div>
+</div></section>
+
+<section class="block" id="features"><div class="wrap">
+  <div class="sh reveal"><span class="k">Features</span><h2>Everything your team needs, nothing it doesn't.</h2><p>Powerful where it counts, simple everywhere else.</p></div>
+  <div class="feat">
+    <div class="fcard fcard--wide reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 3 5-6"/></svg></div><h3>Real-time analytics</h3><p>Live dashboards that update as it happens. Track revenue, retention and conversion without waiting for a report — and drill into any number with one click.</p></div>
+    <div class="fcard reveal"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div><h3>AI insights</h3><p>Flowbase spots the trends and anomalies you'd miss, and tells you what to do next.</p></div>
+    <div class="fcard reveal"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M2 21a7 7 0 0 1 14 0"/></svg></div><h3>Team roles</h3><p>Granular permissions so everyone sees exactly what they should — and nothing they shouldn't.</p></div>
+    <div class="fcard reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg></div><h3>Fast by default</h3><p>Sub-second loads, keyboard-first navigation, and an interface that never gets in your way.</p></div>
+    <div class="fcard fcard--wide reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16v13H4z"/><path d="M4 7l8-4 8 4M9 20v-6h6v6"/></svg></div><h3>Connect everything</h3><p>Native integrations with Stripe, Sheets, Postgres, Segment and 40+ more. Pipe your data in, get answers out — no engineering ticket required.</p></div>
+  </div>
+</div></section>
+
+<section class="block" id="pricing"><div class="wrap">
+  <div class="sh reveal"><span class="k">Pricing</span><h2>Simple pricing that scales with you.</h2><p>Start free. Upgrade when you're ready.</p></div>
+  <div class="price-toggle reveal"><span id="lblM" style="color:var(--ink)">Monthly</span>
+    <div class="switch" id="switch"><i></i></div>
+    <span id="lblY">Yearly</span><span class="save">Save 20%</span></div>
+  <div class="plans">
+    <div class="plan reveal"><h3>Starter</h3><div class="amt"><span data-m="0" data-y="0">$0</span><small>/mo</small></div>
+      <ul><li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Up to 3 members</li><li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>2 dashboards</li><li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Community support</li></ul>
+      <a class="btn btn--g">Get started</a></div>
+    <div class="plan plan--best reveal"><h3>Pro</h3><div class="amt">$<span data-m="29" data-y="23">29</span><small>/mo</small></div>
+      <ul><li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Unlimited members</li><li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Unlimited dashboards</li><li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>AI insights</li><li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Priority support</li></ul>
+      <a class="btn btn--p">Start free trial</a></div>
+    <div class="plan reveal"><h3>Enterprise</h3><div class="amt">$<span data-m="79" data-y="63">79</span><small>/mo</small></div>
+      <ul><li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>SSO & audit logs</li><li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Custom roles</li><li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Dedicated manager</li><li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>99.9% SLA</li></ul>
+      <a class="btn btn--g">Contact sales</a></div>
+  </div>
+</div></section>
+
+<section class="block" id="loved"><div class="wrap">
+  <div class="sh reveal"><span class="k">Loved by teams</span><h2>Don't take our word for it.</h2></div>
+  <div class="quotes">
+    <div class="quote reveal"><div class="stars">★★★★★</div><p>"We replaced three tools with Flowbase and cut our reporting time from days to minutes. The team actually enjoys checking metrics now."</p><div class="who"><div class="av" style="background:linear-gradient(135deg,#6d5efc,#33e0d0)">AO</div><div><b>Amara Okoye</b><small>Head of Growth, Northwind</small></div></div></div>
+    <div class="quote reveal"><div class="stars">★★★★★</div><p>"The fastest analytics tool I've used. AI insights caught a churn spike a week before we would've noticed it ourselves."</p><div class="who"><div class="av" style="background:linear-gradient(135deg,#f79009,#f04438)">KT</div><div><b>Kenji Tanaka</b><small>COO, Orbit Corp</small></div></div></div>
+    <div class="quote reveal"><div class="stars">★★★★★</div><p>"Onboarding took an afternoon. Beautiful, fast, and it just works. Worth every cent of the Pro plan."</p><div class="who"><div class="av" style="background:linear-gradient(135deg,#12b76a,#33e0d0)">HK</div><div><b>Hana Kim</b><small>Founder, Lumen Health</small></div></div></div>
+  </div>
+</div></section>
+
+<section class="block" id="faq"><div class="wrap">
+  <div class="sh reveal"><span class="k">FAQ</span><h2>Questions, answered.</h2></div>
+  <div class="faq" id="faqList">
+    <div class="qa"><button class="qa__q">Is there really a free plan?<span>+</span></button><div class="qa__a"><p>Yes — the Starter plan is free forever for up to 3 members and 2 dashboards. No credit card required to sign up.</p></div></div>
+    <div class="qa"><button class="qa__q">Can I cancel anytime?<span>+</span></button><div class="qa__a"><p>Absolutely. Plans are month-to-month (or yearly if you want the discount). Cancel in one click, no phone calls, no retention traps.</p></div></div>
+    <div class="qa"><button class="qa__q">How does the data connect?<span>+</span></button><div class="qa__a"><p>Native integrations with Stripe, Google Sheets, Postgres, Segment and 40+ more. Most sources connect in under two minutes with no engineering help.</p></div></div>
+    <div class="qa"><button class="qa__q">Is my data secure?<span>+</span></button><div class="qa__a"><p>Data is encrypted in transit and at rest. Enterprise plans add SSO, audit logs and a 99.9% uptime SLA.</p></div></div>
+  </div>
+</div></section>
+
+<section class="wrap"><div class="final reveal">
+  <h2>Ready to see your numbers clearly?</h2>
+  <p>Join 2,400+ teams making faster decisions with Flowbase. Free for 14 days.</p>
+  <a class="btn btn--p">Start your free trial →</a>
+</div></section>
+
+<footer><div class="wrap foot">
+  <a class="logo"><span class="logo__m g"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2.2"><path d="M4 7h16M4 12h10M4 17h7"/></svg></span>Flowbase</a>
+  <div class="foot__links"><a>Privacy</a><a>Terms</a><a>Security</a><a>Contact</a></div>
+  <span>© 2026 Flowbase — demo by Brian Laureano</span>
+</div></footer>
+
+<script>
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+
+  /* chart bars */
+  const H=[38,52,45,63,58,72,66,80,74,90,86,100];
+  $('#mchart').innerHTML=H.map(h=>`<i style="--h:0%" data-h="${h}"></i>`).join('');
+
+  /* pricing toggle */
+  let yearly=false;
+  $('#switch').addEventListener('click',()=>{
+    yearly=!yearly; $('#switch').classList.toggle('on',yearly);
+    $('#lblM').style.color=yearly?'var(--muted)':'var(--ink)';
+    $('#lblY').style.color=yearly?'var(--ink)':'var(--muted)';
+    $$('.amt [data-m]').forEach(el=>{const v=yearly?el.dataset.y:el.dataset.m;el.textContent=(el.textContent.trim().startsWith('$')?'$':'')+v;});
+  });
+
+  /* faq */
+  $$('#faqList .qa__q').forEach(q=>q.addEventListener('click',()=>{
+    const qa=q.parentElement, a=qa.querySelector('.qa__a'), open=qa.classList.contains('on');
+    $$('#faqList .qa').forEach(x=>{x.classList.remove('on');x.querySelector('.qa__a').style.maxHeight='0';});
+    if(!open){qa.classList.add('on');a.style.maxHeight=a.scrollHeight+'px';}
+  }));
+
+  /* reveal + chart play */
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting)return; e.target.classList.add('in'); io.unobserve(e.target);
+    if(e.target.querySelector&&e.target.querySelector('#mchart')||e.target.id==='mchart'){}
+  }),{threshold:.14});
+  $$('.reveal').forEach(el=>io.observe(el));
+
+  const cio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){$$('#mchart i').forEach((b,i)=>setTimeout(()=>b.style.height=b.dataset.h+'%',i*55));cio.disconnect();}
+  }),{threshold:.3});
+  cio.observe($('#mchart'));
+})();
+</script>
+</body>
+</html>

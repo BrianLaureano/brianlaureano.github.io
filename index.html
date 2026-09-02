@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brian Laureano — Creative Developer</title>
+  <meta name="description" content="Brian Laureano turns ideas (and messy spreadsheets) into fast, delightful, high-converting websites. Explore the work live, right here." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor__dot" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><span data-progress></span></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top">Brian&nbsp;Laureano<em>®</em></a>
+    <nav class="nav">
+      <a href="#services" data-i18n="navServices">Services</a>
+      <a href="#work" data-i18n="navWork">Work</a>
+      <a href="#process" data-i18n="navProcess">Process</a>
+      <a href="#about" data-i18n="navAbout">About</a>
+      <a href="#contact" data-i18n="navContact">Contact</a>
+    </nav>
+    <div class="header-right">
+      <button class="lang-toggle" aria-label="Language">
+        <span data-lang="en">EN</span><span class="lang-sep">/</span><span data-lang="pt">PT</span>
+      </button>
+      <a href="#contact" class="header-cta" data-i18n="cta">Let's talk</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <div class="hero__badges" aria-hidden="true">
+        <span class="badge badge--a" data-float>✦ Available for work</span>
+        <span class="badge badge--b" data-float>🇧🇷 Based in Brazil</span>
+        <span class="badge badge--c" data-float>⚡ Loves motion</span>
+      </div>
+      <p class="eyebrow" data-i18n="heroKicker">Hey, I'm Brian 👋 — Creative Developer</p>
+      <h1 class="hero__title">
+        <span class="line" data-reveal data-i18n="heroL1">I build websites</span>
+        <span class="line" data-reveal data-i18n="heroL2">that make people go <em>“whoa”.</em></span>
+      </h1>
+      <p class="hero__sub" data-i18n="heroSub">
+        Fast, playful, high-converting sites with real motion — and I turn boring spreadsheets
+        into smart, living dashboards. Every project below is running <b>live</b>, right inside this page.
+      </p>
+      <div class="hero__meta">
+        <a href="#work" class="btn btn--primary" data-i18n="heroBtn1">See the work</a>
+        <a href="#contact" class="btn btn--ghost" data-i18n="heroBtn2">Start a project ↗</a>
+      </div>
+      <div class="hero__scroll" aria-hidden="true"><span data-i18n="scroll">Scroll</span><i></i></div>
+    </section>
+
+    <!-- ===================== MARQUEE ===================== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Websites</span><b>✦</b><span>Dashboards</span><b>✦</b><span>Motion</span><b>✦</b><span>Brand</span><b>✦</b>
+        <span>Next.js</span><b>✦</b><span>GSAP</span><b>✦</b><span>Spreadsheets → Apps</span><b>✦</b>
+        <span>Websites</span><b>✦</b><span>Dashboards</span><b>✦</b><span>Motion</span><b>✦</b><span>Brand</span><b>✦</b>
+        <span>Next.js</span><b>✦</b><span>GSAP</span><b>✦</b><span>Spreadsheets → Apps</span><b>✦</b>
+      </div>
+    </div>
+
+    <!-- ===================== SERVICES ===================== -->
+    <section class="services" id="services">
+      <p class="section-label"><span class="label-num">01</span> <span data-i18n="svcLabel">What I build</span></p>
+      <h2 class="services__title" data-i18n="svcTitle">Two things, done properly: sites that convert and apps that run your business.</h2>
+      <div class="svc-grid">
+        <article class="svc-card">
+          <span class="svc-card__ico" aria-hidden="true">🎯</span>
+          <h3 data-i18n="svcC1t">Animated Landing Pages</h3>
+          <p data-i18n="svcC1d">High-converting, scroll-driven pages with real motion (Next.js · GSAP · Lenis). Fast, responsive, and built to make visitors act — not just look.</p>
+          <ul><li data-i18n="svcC1a">Product & brand launches</li><li data-i18n="svcC1b">Scroll storytelling</li><li data-i18n="svcC1c">90+ PageSpeed</li></ul>
+        </article>
+        <article class="svc-card svc-card--hot">
+          <span class="svc-card__ico" aria-hidden="true">📊</span>
+          <h3 data-i18n="svcC2t">Custom Dashboards</h3>
+          <p data-i18n="svcC2d">Real-time dashboards and internal tools with live charts, KPIs, roles and secure data. The software that actually runs the operation.</p>
+          <ul><li data-i18n="svcC2a">Analytics & KPIs</li><li data-i18n="svcC2b">Admin / CRM panels</li><li data-i18n="svcC2c">Roles & live data</li></ul>
+        </article>
+        <article class="svc-card">
+          <span class="svc-card__ico" aria-hidden="true">🔁</span>
+          <h3 data-i18n="svcC3t">Spreadsheets → Web Apps</h3>
+          <p data-i18n="svcC3d">You have the data trapped in Sheets. I turn those tabs and formulas into a fast, secure web app your whole team enjoys using.</p>
+          <ul><li data-i18n="svcC3a">Google Sheets / Excel</li><li data-i18n="svcC3b">Firebase back end</li><li data-i18n="svcC3c">PWA / offline-ready</li></ul>
+        </article>
+      </div>
+      <div class="trust-bar">
+        <div class="trust"><strong data-count="5" data-suffix="+">0</strong><small data-i18n="trust1">Projects shipped</small></div>
+        <div class="trust"><strong data-count="1">0</strong><small data-i18n="trust2">Full operations platform, live</small></div>
+        <div class="trust"><strong>&lt; 24h</strong><small data-i18n="trust3">Reply time</small></div>
+        <div class="trust"><strong data-count="100" data-suffix="%">0</strong><small data-i18n="trust4">Design + code, one person</small></div>
+      </div>
+    </section>
+
+    <!-- ===================== SUPERPOWER: PLANILHA → APP ===================== -->
+    <section class="super" id="superpower">
+      <p class="section-label"><span class="label-num">02</span> <span data-i18n="superLabel">The superpower</span></p>
+      <h2 class="super__title" data-i18n="superTitle">Your spreadsheet is a business trapped in a grid. I set it free.</h2>
+      <p class="super__note" data-i18n="superNote">You already have the data. I turn those tabs, formulas and colored cells into a fast, beautiful web app your whole team actually enjoys using — live, secure, real-time.</p>
+
+      <div class="transform">
+        <!-- planilha -->
+        <div class="sheet" aria-hidden="true">
+          <div class="sheet__bar"><span></span><span></span><span></span> data.xlsx</div>
+          <div class="sheet__grid" data-sheet></div>
+        </div>
+        <div class="transform__arrow" aria-hidden="true"><span>transform</span><b>→</b></div>
+        <!-- dashboard -->
+        <div class="dash" aria-hidden="true">
+          <div class="dash__bar"><span></span> app.yoursite.com</div>
+          <div class="dash__body">
+            <div class="kpis">
+              <div class="kpi"><small>Revenue</small><strong data-count="128" data-prefix="$" data-suffix="k">0</strong></div>
+              <div class="kpi"><small>Active</small><strong data-count="94" data-suffix="%">0</strong></div>
+              <div class="kpi"><small>Tables</small><strong data-count="12">0</strong></div>
+            </div>
+            <div class="chart" data-chart>
+              <i style="--h:40%"></i><i style="--h:70%"></i><i style="--h:55%"></i><i style="--h:90%"></i>
+              <i style="--h:62%"></i><i style="--h:78%"></i><i style="--h:100%"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="super__cta">
+        <a href="#contact" class="btn btn--primary" data-i18n="superBtn">Turn my spreadsheet into an app ↗</a>
+      </div>
+    </section>
+
+    <!-- ===================== SELECTED WORK ===================== -->
+    <section class="work" id="work">
+      <div class="work__head">
+        <p class="section-label"><span class="label-num">03</span> <span data-i18n="workLabel">Selected work</span></p>
+        <h2 class="work__title" data-i18n="workTitle">Real sites, running live. Not screenshots.</h2>
+        <p class="work__note" data-i18n="workNote">Scroll into one and it wakes up. Click to play with it, or open the full-screen experience. More projects landing soon. 🚀</p>
+      </div>
+      <div class="projects" data-projects></div>
+      <p class="work__more" data-i18n="workMore">More projects coming soon — this is just the beginning.</p>
+    </section>
+
+    <!-- ===================== PROCESS: COMO TRABALHO ===================== -->
+    <section class="process" id="process">
+      <p class="section-label"><span class="label-num">04</span> <span data-i18n="procLabel">How I work</span></p>
+      <h2 class="process__title" data-i18n="procTitle">Simple, transparent, and low-risk for you.</h2>
+      <p class="process__note" data-i18n="procNote">No jargon, no disappearing. You always know what's happening and what comes next.</p>
+      <ol class="steps">
+        <li class="step"><span class="step__n">01</span><h3 data-i18n="proc1t">We talk</h3><p data-i18n="proc1d">A quick call or chat. You tell me the goal; I tell you honestly if I'm the right fit and how I'd approach it.</p></li>
+        <li class="step"><span class="step__n">02</span><h3 data-i18n="proc2t">Clear plan & quote</h3><p data-i18n="proc2d">A fixed scope, timeline and price up front. No surprise invoices — you approve before I start.</p></li>
+        <li class="step"><span class="step__n">03</span><h3 data-i18n="proc3t">Build with updates</h3><p data-i18n="proc3d">You get a live preview link and progress updates you don't have to chase. Feedback welcome at every step.</p></li>
+        <li class="step"><span class="step__n">04</span><h3 data-i18n="proc4t">Launch & support</h3><p data-i18n="proc4d">Tested on real devices, deployed, and I stay around after launch to make sure it runs smoothly.</p></li>
+      </ol>
+    </section>
+
+    <!-- ===================== ABOUT (com a foto) ===================== -->
+    <section class="about" id="about">
+      <p class="section-label"><span class="label-num">05</span> <span data-i18n="aboutLabel">About</span></p>
+      <div class="about__grid">
+        <figure class="about__photo">
+          <img src="assets/brian.jpg" alt="Brian Laureano"
+               onerror="this.style.display='none';this.parentNode.classList.add('is-empty')" />
+          <span class="about__initials" aria-hidden="true">BL</span>
+          <span class="about__sticker" data-float>That's me 👋</span>
+        </figure>
+        <div class="about__text">
+          <h2 class="about__lead" data-i18n="aboutLead">I'm Brian — I make the web feel <em>alive</em>.</h2>
+          <p data-i18n="aboutP1">Creative developer who lives where design meets engineering. I build fast, cinematic websites with real motion — and I'm obsessed with turning clunky spreadsheets and internal chaos into smart, delightful tools people love to open.</p>
+          <p data-i18n="aboutP2">I've shipped an entire operations platform from scratch, plus the brand experiences you see above. I design the story and write the code. If you want work that makes people stop scrolling, let's talk.</p>
+          <ul class="about__list">
+            <li>🎨 <span data-i18n="svc1">Design & Art Direction</span></li>
+            <li>🎬 <span data-i18n="svc2">Cinematic Front-end</span></li>
+            <li>📊 <span data-i18n="svc3">Spreadsheets → Web Apps</span></li>
+            <li>✨ <span data-i18n="svc4">Motion & Brand</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section class="contact" id="contact">
+      <p class="section-label"><span class="label-num">06</span> <span data-i18n="contactLabel">Contact</span></p>
+      <h2 class="contact__title">
+        <span class="line" data-reveal data-i18n="contactL1">Let's make something</span>
+        <span class="line" data-reveal data-i18n="contactL2"><em>bright</em> together.</span>
+      </h2>
+      <a class="big-cta" href="mailto:brianwelcome66@gmail.com">brianwelcome66@gmail.com ↗</a>
+      <div class="contact__socials">
+        <a href="https://www.linkedin.com/in/brian-laureano-1093b8151/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="mailto:brianwelcome66@gmail.com">Email ↗</a>
+      </div>
+      <div class="contact__row">
+        <span data-i18n="avail">Available for freelance & contract</span>
+        <span>Brian Laureano © 2026</span>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <span>Brian Laureano — Creative Developer</span>
+      <span data-i18n="footer">Made with care, coffee & motion.</span>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
