@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Last Ascension</title>
+  <meta name="description" content="The Last Ascension — a cinematic scroll experience. A forgotten hero. A lost sword. A world about to be rewritten." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor__dot" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="intro-veil" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"><span data-progress></span></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top">The Last Ascension</a>
+    <button class="lang-toggle" aria-label="Language"><span data-lang="en">EN</span><span class="lang-sep">/</span><span data-lang="pt">PT</span></button>
+  </header>
+
+  <main id="top">
+    <!-- ============ CINEMATIC SCROLL ============ -->
+    <section class="film">
+      <div class="film__stage">
+        <div class="scenes" data-scenes></div>
+        <div class="film__grade" aria-hidden="true"></div>
+        <div class="film__vignette" aria-hidden="true"></div>
+        <canvas class="embers" aria-hidden="true"></canvas>
+        <div class="break-frame" aria-hidden="true"></div>
+        <div class="break-burst" aria-hidden="true"></div>
+
+        <!-- título de abertura -->
+        <div class="intro">
+          <p class="intro__kicker" data-i18n="kicker">A forgotten hero. A lost sword.</p>
+          <h1 class="intro__title">The&nbsp;Last<br/>Ascension</h1>
+          <p class="intro__sub" data-i18n="sub">A world about to be rewritten.</p>
+        </div>
+
+        <!-- legendas de cena (renderizadas via JS) -->
+        <div class="caps" data-caps></div>
+
+        <div class="film__hud">
+          <span class="hud__no" data-hud-no>01</span><span class="hud__sep">—</span><span class="hud__tot">08</span>
+        </div>
+        <div class="scroll-hint" aria-hidden="true"><span data-i18n="scroll">Scroll</span><i></i></div>
+      </div>
+    </section>
+
+    <!-- ============ EPÍLOGO (notas do diretor) ============ -->
+    <section class="epilogue">
+      <p class="section-tag" data-i18n="notesTag">Director's Notes</p>
+      <div class="epilogue__grid">
+        <ul class="notes__list">
+          <li><b data-i18n="nTone">Tone</b><span data-i18n="nToneV">Epic, cinematic, inspiring</span></li>
+          <li><b data-i18n="nMotif">Motifs</b><span data-i18n="nMotifV">Choice, sacrifice, purpose, leadership</span></li>
+          <li><b data-i18n="nRhythm">Rhythm</b><span data-i18n="nRhythmV">Slow → intense → cathartic → reflective</span></li>
+          <li><b data-i18n="nRef">Visual reference</b><span data-i18n="nRefV">Riot Games cinematics, Blur Studio, “Arcane”</span></li>
+        </ul>
+        <div class="epilogue__lang">
+          <p class="section-tag" data-i18n="langTag">Camera Language</p>
+          <div class="lang__icons" data-icons></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="board-foot">
+      <p class="closing" data-i18n="closing">Journey. Choice. Destiny.<br/><em>The rest is history.</em></p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

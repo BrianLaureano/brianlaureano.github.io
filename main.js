@@ -22,7 +22,7 @@
       tags: ['E-commerce', 'Cart', 'Quick-view', 'Filter'],
       desc: { en: 'A premium storefront — category filter, product quick-view, and a working cart with quantities, live totals and a free-shipping threshold.',
               pt: 'Uma vitrine premium — filtro por categoria, quick-view de produto e carrinho funcional com quantidades, totais ao vivo e frete grátis por valor.' } },
-    { idx: '05', name: 'The Last Ascension', year: '2026', url: 'http://localhost:5210', liveUrl: '',
+    { idx: '05', name: 'The Last Ascension', year: '2026', url: 'http://localhost:5210', liveUrl: 'https://brianlaureano.github.io/the-last-ascension/',
       tags: ['GSAP', 'Cinematic', 'AI Art', 'Storyboard'],
       desc: { en: 'A director’s storyboard brought to life — a Riot-style cinematic sequence with AI concept art and a shot that breaks the frame.',
               pt: 'Um storyboard de diretor ganhando vida — sequência cinematográfica estilo Riot, com concept art por IA e um plano que rompe a moldura.' } },
