@@ -6,19 +6,19 @@
 
   /* ---------- projetos (embed AO VIVO). liveUrl = URL publicada (deploy) ---------- */
   const PROJECTS = [
-    { idx: '01', name: 'Nebula Analytics', year: '2026', url: 'http://localhost:5240', liveUrl: 'https://santista4560.github.io/dashboard-nebula/',
+    { idx: '01', name: 'Nebula Analytics', year: '2026', url: 'http://localhost:5240', liveUrl: 'https://brianlaureano.github.io/dashboard-nebula/',
       tags: ['Dashboard', 'Charts', 'Real-time', 'Dark/Light'],
       desc: { en: 'A real-time SaaS analytics dashboard — animated KPIs, an interactive revenue chart with crosshair tooltip, traffic breakdown, live data table, and a dark/light theme.',
               pt: 'Um dashboard de analytics SaaS em tempo real — KPIs animados, gráfico de receita interativo com tooltip de mira, fontes de tráfego, tabela de dados ao vivo e tema claro/escuro.' } },
-    { idx: '02', name: 'Helm CRM', year: '2026', url: 'http://localhost:5250', liveUrl: 'https://santista4560.github.io/admin-helm/',
+    { idx: '02', name: 'Helm CRM', year: '2026', url: 'http://localhost:5250', liveUrl: 'https://brianlaureano.github.io/admin-helm/',
       tags: ['Admin', 'CRM', 'Data table', 'CRUD'],
       desc: { en: 'A working admin / CRM panel — searchable, sortable customer table with filters, a slide-over to add & edit records, a live deal pipeline, and a dark/light theme.',
               pt: 'Um painel admin / CRM funcional — tabela de clientes com busca, ordenação e filtros, drawer pra adicionar e editar registros, pipeline de negócios ao vivo e tema claro/escuro.' } },
-    { idx: '03', name: 'Flowbase', year: '2026', url: 'http://localhost:5260', liveUrl: 'https://santista4560.github.io/landing-flowbase/',
+    { idx: '03', name: 'Flowbase', year: '2026', url: 'http://localhost:5260', liveUrl: 'https://brianlaureano.github.io/landing-flowbase/',
       tags: ['Landing', 'SaaS', 'Pricing', 'Motion'],
       desc: { en: 'A high-converting SaaS product landing — animated hero, feature bento, pricing with a monthly/yearly toggle, testimonials and an FAQ.',
               pt: 'Uma landing de produto SaaS que converte — hero animado, bento de features, pricing com alternância mensal/anual, depoimentos e FAQ.' } },
-    { idx: '04', name: 'Lumen Store', year: '2026', url: 'http://localhost:5270', liveUrl: 'https://santista4560.github.io/shop-lumen/',
+    { idx: '04', name: 'Lumen Store', year: '2026', url: 'http://localhost:5270', liveUrl: 'https://brianlaureano.github.io/shop-lumen/',
       tags: ['E-commerce', 'Cart', 'Quick-view', 'Filter'],
       desc: { en: 'A premium storefront — category filter, product quick-view, and a working cart with quantities, live totals and a free-shipping threshold.',
               pt: 'Uma vitrine premium — filtro por categoria, quick-view de produto e carrinho funcional com quantidades, totais ao vivo e frete grátis por valor.' } },
