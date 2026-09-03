@@ -1,5 +1,5 @@
 /* ============================================================
-   Brian Laureano — Portfolio  ·  "3D creator" dark clone
+   Brian Laureano - Portfolio  ·  "3D creator" dark clone
    ============================================================ */
 :root{
   --bg:        #0a0a0c;
@@ -11,7 +11,7 @@
   --white-ink: #0a0a0c;
   --white-mut: #6a6a70;
 
-  /* accent — purple → magenta glossy */
+  /* accent - purple → magenta glossy */
   --a1:#7b3ff2; --a2:#a53df6; --a3:#e14fd0;
   --grad: linear-gradient(135deg,var(--a1),var(--a2) 55%,var(--a3));
 

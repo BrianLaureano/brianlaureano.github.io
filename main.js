@@ -1,4 +1,4 @@
-/* ============ Brian Laureano — Portfolio · "3D creator" clone ============ */
+/* ============ Brian Laureano - Portfolio · "3D creator" clone ============ */
 (function () {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const { gsap } = window;
