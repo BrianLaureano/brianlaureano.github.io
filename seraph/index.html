@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SERAPH — Mythos</title>
+  <meta name="description" content="Protótipo de hero page cinematográfica — mitologia barroca, storytelling por scroll." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- flash do juramento (luz/treva) -->
+  <div class="world-flash" aria-hidden="true"></div>
+  <!-- véu cinematográfico de abertura (fade from black) -->
+  <div class="intro-veil" aria-hidden="true"></div>
+  <!-- barras cinematográficas (letterbox) -->
+  <div class="cinebar cinebar--top" aria-hidden="true"></div>
+  <div class="cinebar cinebar--bottom" aria-hidden="true"></div>
+  <!-- cursor customizado -->
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor__dot" aria-hidden="true"></div>
+  <!-- toggle de som ambiente -->
+  <button class="sound-toggle" aria-pressed="false" aria-label="Ativar som ambiente">
+    <span class="sound-toggle__bars"><i></i><i></i><i></i><i></i></span>
+    <span class="sound-toggle__label" data-i18n="sound">Som</span>
+  </button>
+  <!-- grão / textura por cima de tudo -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- barra de progresso do scroll -->
+  <div class="scroll-progress" aria-hidden="true"><span data-progress></span></div>
+
+  <!-- HEADER fixo -->
+  <header class="site-header">
+    <a class="brand" href="#top">SERAPH<span>/ MYTHOS</span></a>
+    <nav class="nav">
+      <a href="#manifesto" data-i18n="nav1">O Verbo</a>
+      <a href="#work" data-i18n="nav2">O Códice</a>
+      <a href="#contact" data-i18n="nav3">O Chamado</a>
+    </nav>
+    <div class="header-right">
+      <button class="lang-toggle" aria-label="Language / Idioma">
+        <span data-lang="en">EN</span><span class="lang-sep">/</span><span data-lang="pt">PT</span>
+      </button>
+      <a href="#contact" class="header-cta" data-i18n="cta">Invocar ↗</a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ========== ATO I — HERO PINNED (o bem × o mal, por scroll) ========== -->
+    <section class="hero" id="hero">
+      <div class="hero__pin">
+        <!-- camadas full-bleed que fazem crossfade no scroll -->
+        <div class="stage">
+          <div class="bg bg--bem" data-depth="0.06" data-video="assets/bem_loop.mp4" data-poster="assets/bem.png"></div>
+          <div class="bg bg--mal" data-depth="0.06" data-video="assets/mal_loop.mp4" data-poster="assets/mal.png"></div>
+          <div class="bg bg--fim" data-depth="0.06" data-video="assets/confronto_loop.mp4" data-poster="assets/confronto.png"></div>
+          <div class="stage__grade" aria-hidden="true"></div>
+          <div class="stage__vignette" aria-hidden="true"></div>
+          <div class="stage__rays" aria-hidden="true"></div>
+          <div class="clash-burst" aria-hidden="true"></div>
+        </div>
+
+        <canvas class="embers" aria-hidden="true"></canvas>
+
+        <div class="hero__title">
+          <p class="eyebrow" data-i18n="eyebrow"><span>Livro I</span> — E a lâmina foi dada a quem não temesse a noite</p>
+          <h1 class="display" data-split>SERAPH</h1>
+          <p class="hero__sub" data-i18n="sub">No princípio era a Luz — e a Treva jurou apagá-la.</p>
+        </div>
+
+        <div class="chapters">
+          <article class="chapter chapter--left" data-chapter="1">
+            <span class="chapter__num">I</span>
+            <h2 data-i18n="ch1h">O Bem</h2>
+            <p data-i18n="ch1p">E desceu dos altos céus o Guardião; abriu as asas sobre o mundo e ergueu a lâmina — e o abismo recuou diante de seu nome.</p>
+          </article>
+          <article class="chapter chapter--right" data-chapter="2">
+            <span class="chapter__num">II</span>
+            <h2 data-i18n="ch2h">O Mal</h2>
+            <p data-i18n="ch2p">Mas das cinzas do orgulho ergueu-se o Caído, com fogo nas fendas da carne, jurando apagar toda aurora que ousasse nascer.</p>
+          </article>
+          <article class="chapter chapter--center" data-chapter="3">
+            <span class="chapter__num">III</span>
+            <h2 data-i18n="ch3h">O Confronto</h2>
+            <p data-i18n="ch3p">Então o céu se partiu ao meio. Duas forças, uma só lâmina — e onde o aço beijou o aço, decidiu-se a sorte de tudo quanto respira.</p>
+          </article>
+        </div>
+
+        <div class="scroll-hint" aria-hidden="true"><span data-i18n="scroll">Role</span><i></i></div>
+      </div>
+    </section>
+
+    <!-- ========== ATO II — MANIFESTO ========== -->
+    <section class="manifesto" id="manifesto">
+      <p class="section-label" data-i18n="manLabel"><span>Gênesis · 01</span> — O Verbo</p>
+      <h2 class="statement" data-lines data-i18n="manStmt">
+        No princípio, o caos. Então demos forma à <em>luz</em>, voz ao movimento e nome
+        àquilo que ainda não existia — e vimos que era <em>bom</em>.
+      </h2>
+      <div class="manifesto__foot">
+        <p data-i18n="manFoot">Não moldamos imagens. Moldamos aquilo que os olhos hão de lembrar quando toda luz se apagar.</p>
+      </div>
+    </section>
+
+    <!-- ========== ATO III — OBRAS (splash cinematográfico) ========== -->
+    <section class="work" id="work">
+      <div class="work__head">
+        <h2 data-i18n="workH">O Códice</h2>
+        <span class="work__count" data-i18n="workCount">Três provações · MMXXVI</span>
+      </div>
+      <div class="work__list">
+        <a class="work-card" href="#" data-tilt>
+          <span class="work-card__idx">01</span>
+          <div class="work-card__media"><img src="assets/obra-1.png" alt="A Vigília" /></div>
+          <div class="work-card__meta"><h3 data-i18n="o1h">A Vigília</h3><em data-i18n="o1e">Ajoelhou-se, antes do fim do mundo</em></div>
+        </a>
+        <a class="work-card" href="#" data-tilt>
+          <span class="work-card__idx">02</span>
+          <div class="work-card__media"><img src="assets/obra-2.png" alt="A Queda" /></div>
+          <div class="work-card__meta"><h3 data-i18n="o2h">A Queda</h3><em data-i18n="o2e">Quis tocar o sol, e ardeu</em></div>
+        </a>
+        <a class="work-card" href="#" data-tilt>
+          <span class="work-card__idx">03</span>
+          <div class="work-card__media"><img src="assets/obra-3.png" alt="O Juízo" /></div>
+          <div class="work-card__meta"><h3 data-i18n="o3h">O Juízo</h3><em data-i18n="o3e">Aço contra aço, alma contra alma</em></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ========== ATO IV — MOMENTO CINEMATOGRÁFICO (pinned full-bleed) ========== -->
+    <section class="cinematic" id="cinematic">
+      <div class="cinematic__pin">
+        <img class="cinematic__img" src="assets/confronto.png" alt="" />
+        <div class="cinematic__grade" aria-hidden="true"></div>
+        <h2 class="cinematic__line" data-split data-i18n="cineLine">E A TREVA<br/>NÃO A VENCEU.</h2>
+      </div>
+    </section>
+
+    <!-- ========== STATS (count-up) ========== -->
+    <section class="stats">
+      <p class="section-label stats__label" data-i18n="statsLabel"><span>O Testemunho</span> — aquilo que ficou escrito</p>
+      <div class="stats__grid">
+        <div class="stat"><span class="stat__num" data-count="300">0</span><p data-i18n="stat1">Almas forjadas em edição limitada</p></div>
+        <div class="stat"><span class="stat__num" data-count="18" data-suffix="M">0</span><p data-i18n="stat2">Olhos que testemunharam a luz</p></div>
+        <div class="stat"><span class="stat__num" data-count="47">0</span><p data-i18n="stat3">Batalhas travadas desde a primeira aurora</p></div>
+      </div>
+    </section>
+
+    <!-- ========== ESCOLHA UM LADO (duality interativa) ========== -->
+    <section class="sides" id="sides">
+      <p class="section-label sides__label" data-i18n="sidesLabel"><span>O Juramento</span> — e a ti, a quem servirás?</p>
+      <div class="sides__grid">
+        <button class="side side--luz" data-side="luz">
+          <span class="side__kicker" data-i18n="luzKick">Ordem · Aurora</span>
+          <span class="side__name" data-i18n="luzName">LUZ</span>
+          <span class="side__desc" data-i18n="luzDesc">Guardar a última aurora. Erguer a lâmina, ainda que sozinho, contra toda a noite.</span>
+        </button>
+        <button class="side side--treva" data-side="treva">
+          <span class="side__kicker" data-i18n="trevaKick">Caos · Cinzas</span>
+          <span class="side__name" data-i18n="trevaName">TREVA</span>
+          <span class="side__desc" data-i18n="trevaDesc">Queimar o mundo velho — e, sobre as cinzas, escrever o teu próprio nome.</span>
+        </button>
+      </div>
+      <p class="sides__hint" data-i18n="sidesHint" aria-live="polite">Teu juramento reescreve o mundo.</p>
+    </section>
+
+    <!-- ========== CTA / CONTATO ========== -->
+    <section class="contact" id="contact">
+      <div class="contact__bg" aria-hidden="true"></div>
+      <p class="section-label" data-i18n="contactLabel"><span>O Chamado · 05</span></p>
+      <h2 class="display contact__title" data-split data-i18n="contactTitle">Tens uma guerra a travar?</h2>
+      <a class="big-cta" href="mailto:studio@seraph.design">studio@seraph.design ↗</a>
+    </section>
+
+    <footer class="site-footer">
+      <span>SERAPH / MYTHOS</span>
+      <span data-i18n="footer">Forjado em luz e sombra.</span>
+    </footer>
+  </main>
+
+  <!-- libs -->
+  <!-- ===== LIGHTBOX de galeria (obra emoldurada) ===== -->
+  <div class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="lb-close" aria-label="Fechar">✕</button>
+    <button class="lb-nav lb-prev" aria-label="Anterior">‹</button>
+    <button class="lb-nav lb-next" aria-label="Próxima">›</button>
+    <div class="lb-stage">
+      <figure class="lb-frame"><img class="lb-img" src="" alt="" /></figure>
+      <div class="lb-cap">
+        <span class="lb-num"></span>
+        <h3 class="lb-title"></h3>
+        <p class="lb-desc"></p>
+        <span class="lb-hint">Esc · clique fora para fechar</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

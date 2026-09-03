@@ -38,7 +38,7 @@
       tags: ['Next.js', 'Luxury', 'GSAP'],
       desc: { en: 'A luxury real-estate brand in bright light — scroll-driven scenes and a car that drives into the CTA.',
               pt: 'Uma marca imobiliária de luxo em plena luz — cenas guiadas por scroll e um carro que entra na chamada.' } },
-    { idx: '09', name: 'SERAPH / Mythos', year: '2026', url: 'http://localhost:5178', liveUrl: '',
+    { idx: '09', name: 'SERAPH / Mythos', year: '2026', url: 'http://localhost:5178', liveUrl: 'https://brianlaureano.github.io/seraph/',
       tags: ['GSAP', 'Cinematic', 'AI Art', 'Interactive'],
       desc: { en: 'A cinematic myth of light vs. darkness — AI baroque art, living video, a scroll that tells a story.',
               pt: 'Um mito cinematográfico da luz contra a treva — arte barroca por IA, vídeo vivo, um scroll que narra.' } },
