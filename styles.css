@@ -52,9 +52,27 @@ img{max-width:100%; display:block}
   background:radial-gradient(circle,rgba(165,61,246,.34),transparent 68%)}
 @media (prefers-reduced-motion:reduce){.grain{display:none}}
 
-/* ---------- scroll progress + cursor ---------- */
+/* ---------- scroll progress ---------- */
 .scroll-progress{position:fixed; top:0; left:0; right:0; height:2px; background:transparent; z-index:120}
 .scroll-progress span{display:block; height:100%; width:0; background:var(--grad)}
+
+/* ---------- keyboard focus + tactile feedback (a11y) ---------- */
+:focus{outline:none}
+:focus-visible{outline:2px solid var(--a2); outline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--a2); outline-offset:3px}
+.pill--cta:focus-visible,.pill--ghost:focus-visible,.contact__mail:focus-visible{outline-offset:5px}
+.pill--cta:active{filter:brightness(.93)}            /* transform owned by magnetic JS */
+.pill--ghost:active{transform:translateY(1px)}
+.topnav__home:active{transform:scale(.93)}
+.lang-toggle:active{transform:scale(.96)}
+section[id]{scroll-margin-top:88px}                  /* keep anchors clear of fixed nav */
+
+/* skip link */
+.skip{position:fixed; top:10px; left:10px; z-index:200; transform:translateY(-160%);
+  background:var(--grad); color:#fff; padding:11px 18px; border-radius:12px;
+  font:700 12px/1 "Space Grotesk",Inter; letter-spacing:.08em; text-transform:uppercase;
+  box-shadow:0 10px 30px -8px rgba(165,61,246,.6); transition:transform .22s var(--ease)}
+.skip:focus{transform:none; outline:none}
 
 /* ============================ NAV ============================ */
 .topnav{

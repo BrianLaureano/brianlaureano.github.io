@@ -97,7 +97,7 @@
           </div>
         </div>
         <p class="proj__blurb" data-pblurb>${p.blurb[LANG]}</p>
-        <a class="proj__shot" ${hasLive?`href="${p.live}" target="_blank" rel="noopener"`:''}>
+        <a class="proj__shot" tabindex="-1" aria-hidden="true" ${hasLive?`href="${p.live}" target="_blank" rel="noopener"`:''}>
           <img src="${p.shot}" alt="${p.name}" loading="lazy"
              onerror="this.parentNode.classList.add('is-empty');this.parentNode.innerHTML='<div class=&quot;shot__ph&quot;><b>${p.name}</b></div>'"/>
           ${hasLive?`<span class="proj__view" aria-hidden="true"><span>${p.name}</span><b>Open live ↗</b></span>`:''}
