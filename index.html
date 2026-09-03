@@ -17,6 +17,7 @@
   <div class="cursor" aria-hidden="true"></div>
   <div class="cursor__dot" aria-hidden="true"></div>
   <div class="scroll-progress" aria-hidden="true"><span data-progress></span></div>
+  <div class="grain" aria-hidden="true"></div>
 
   <!-- ===================== NAV ===================== -->
   <header class="topnav" id="top">
@@ -37,6 +38,7 @@
   <main>
     <!-- ===================== HERO ===================== -->
     <section class="hero">
+      <div class="aura aura--hero" aria-hidden="true"></div>
       <div class="hero__gem" data-float aria-hidden="true"></div>
       <h1 class="hero__title chrome" aria-label="Hi, I'm Brian">
         <span class="hero__ln1">HI, I'M</span>
@@ -52,9 +54,20 @@
       <div class="hero__scroll" aria-hidden="true"><span data-i18n="scroll">Scroll</span><i></i></div>
     </section>
 
-    <!-- ===================== SHOWCASE ROW ===================== -->
-    <section class="showcase" aria-label="Selected work">
-      <div class="showcase__track" data-showcase></div>
+    <!-- ===================== TAPE (disciplines marquee) ===================== -->
+    <section class="tape" aria-hidden="true">
+      <div class="tape__row">
+        <span>Web Design</span><b>✦</b><span>Landing Pages</span><b>✦</b><span>Dashboards</span><b>✦</b><span>Spreadsheets → Apps</span><b>✦</b><span>Motion</span><b>✦</b><span>Brand</span><b>✦</b>
+        <span>Web Design</span><b>✦</b><span>Landing Pages</span><b>✦</b><span>Dashboards</span><b>✦</b><span>Spreadsheets → Apps</span><b>✦</b><span>Motion</span><b>✦</b><span>Brand</span><b>✦</b>
+      </div>
+    </section>
+
+    <!-- ===================== STATS ===================== -->
+    <section class="stats" aria-label="At a glance">
+      <div class="stat"><strong data-count="5" data-suffix="+">0</strong><small data-i18n="stat1">Years crafting the web</small></div>
+      <div class="stat"><strong data-count="9" data-suffix="+">0</strong><small data-i18n="stat2">Projects shipped</small></div>
+      <div class="stat"><strong data-count="100" data-suffix="%">0</strong><small data-i18n="stat3">Design + code, one person</small></div>
+      <div class="stat"><strong>&lt;24h</strong><small data-i18n="stat4">Reply time</small></div>
     </section>
 
     <!-- ===================== ABOUT ===================== -->
@@ -64,7 +77,7 @@
       <span class="prop prop--smiley" data-float aria-hidden="true"><img src="assets/props/smiley.webp" alt="" onerror="this.closest('.prop').classList.add('css-fallback');this.remove()"/></span>
       <span class="prop prop--cursor" data-float aria-hidden="true"><img src="assets/props/cursor.webp" alt="" onerror="this.closest('.prop').classList.add('css-fallback');this.remove()"/></span>
 
-      <h2 class="about__title chrome" data-reveal>ABOUT ME</h2>
+      <h2 class="about__title chrome">ABOUT ME</h2>
       <p class="about__text" data-i18n="aboutText">With more than five years turning ideas into fast, cinematic websites, I focus on web design, dashboards and brand experiences — I truly enjoy working with businesses that want to stand out and present their best image. Let's build something incredible together.</p>
       <a href="#contact" class="pill pill--cta about__cta" data-i18n="cta">CONTACT ME</a>
     </section>
@@ -77,14 +90,16 @@
 
     <!-- ===================== PROJECTS ===================== -->
     <section class="projects" id="projects">
-      <h2 class="projects__title chrome" data-reveal>PROJECTS</h2>
+      <h2 class="projects__title chrome">PROJECTS</h2>
       <div class="proj-stack" data-projects></div>
     </section>
 
     <!-- ===================== CONTACT ===================== -->
     <section class="contact" id="contact">
+      <div class="aura aura--contact" aria-hidden="true"></div>
       <span class="prop prop--gem2" data-float aria-hidden="true"></span>
-      <h2 class="contact__title chrome" data-reveal>LET'S TALK</h2>
+      <p class="contact__eyebrow"><i></i> <span data-i18n="contactEyebrow">Available for freelance &amp; contract</span></p>
+      <h2 class="contact__title chrome">LET'S TALK</h2>
       <p class="contact__note" data-i18n="contactNote">Got a project in mind? I design the story and write the code — start to finish, one person.</p>
       <a class="contact__mail" href="mailto:brianwelcome66@gmail.com">brianwelcome66@gmail.com</a>
       <div class="contact__socials">

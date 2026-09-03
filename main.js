@@ -35,9 +35,6 @@
          pt:'Front-end cinematográfico, sistemas de marca e micro-interações que dão ao produto uma presença memorável e inconfundível.'} },
   ];
 
-  /* ---------- showcase row (usa as thumbs dos projetos) ---------- */
-  const SHOWCASE = PROJECTS.map(p => ({ name:p.name, cat:p.cat, img:p.shot }));
-
   /* ---------- i18n ---------- */
   const I18N = {
     navAbout:{en:'About',pt:'Sobre'}, navServices:{en:'Services',pt:'Serviços'},
@@ -48,6 +45,11 @@
     aboutText:{en:"With more than five years turning ideas into fast, cinematic websites, I focus on web design, dashboards and brand experiences — I truly enjoy working with businesses that want to stand out and present their best image. Let's build something incredible together.",
                pt:'Com mais de cinco anos transformando ideias em sites rápidos e cinematográficos, foco em web design, dashboards e experiências de marca — gosto de verdade de trabalhar com negócios que querem se destacar e mostrar sua melhor imagem. Vamos construir algo incrível juntos.'},
     svcTitle:{en:'SERVICES',pt:'SERVIÇOS'},
+    stat1:{en:'Years crafting the web',pt:'Anos criando na web'},
+    stat2:{en:'Projects shipped',pt:'Projetos entregues'},
+    stat3:{en:'Design + code, one person',pt:'Design + código, uma pessoa'},
+    stat4:{en:'Reply time',pt:'Tempo de resposta'},
+    contactEyebrow:{en:'Available for freelance & contract',pt:'Disponível para freelance & contrato'},
     contactNote:{en:'Got a project in mind? I design the story and write the code — start to finish, one person.',
                  pt:'Tem um projeto em mente? Eu desenho a história e escrevo o código — do início ao fim, uma pessoa só.'},
     footer:{en:'Designed & coded, one person.',pt:'Desenhado & codado, uma pessoa só.'},
@@ -56,22 +58,6 @@
   let LANG='en';
   try{const s=sessionStorage.getItem('bl-lang'); if(s==='pt'||s==='en')LANG=s;}catch(e){}
   const t=(k)=>I18N[k]?I18N[k][LANG]:k;
-
-  /* ---------- render: showcase ---------- */
-  const track=document.querySelector('[data-showcase]');
-  if(track){
-    const build=(item)=>{
-      const a=document.createElement('a');
-      a.className='shot'; a.href='#projects';
-      a.innerHTML=`<img src="${item.img}" alt="${item.name}" loading="lazy"
-        onerror="this.remove()"/>
-        <div class="shot__ph"><b>${item.name}</b><small data-scat>${item.cat[LANG]}</small></div>
-        <span class="shot__cap">${item.name}</span>`;
-      return a;
-    };
-    // duplica p/ loop contínuo
-    [...SHOWCASE,...SHOWCASE].forEach(it=>track.appendChild(build(it)));
-  }
 
   /* ---------- render: services ---------- */
   const svcWrap=document.querySelector('[data-services]');
@@ -122,7 +108,6 @@
     document.querySelectorAll('.lang-toggle [data-lang]').forEach(s=>s.classList.toggle('is-active', s.dataset.lang===l));
     document.querySelectorAll('.svc-item').forEach(li=>{if(li._data){li.querySelector('[data-stitle]').textContent=li._data.t[l]; li.querySelector('[data-sdesc]').textContent=li._data.d[l];}});
     document.querySelectorAll('.proj').forEach(a=>{if(a._data){a.querySelector('[data-pcat]').textContent=a._data.cat[l]; const lv=a.querySelector('[data-plive]'); if(lv)lv.textContent=t('live'); const sn=a.querySelector('[data-psoon]'); if(sn)sn.textContent=t('soon');}});
-    document.querySelectorAll('[data-scat]').forEach((el,i)=>{const arr=[...SHOWCASE,...SHOWCASE]; if(arr[i])el.textContent=arr[i].cat[l];});
   }
   applyLang(LANG);
   const langBtn=document.querySelector('.lang-toggle');
@@ -148,8 +133,8 @@
     gsap.to(inner,{yPercent:0,ease:'power4.out',duration:1.1,scrollTrigger:{trigger:line,start:'top 92%'}});
   });
   gsap.utils.toArray('.proj').forEach(el=>window.ScrollTrigger.create({trigger:el,start:'top 88%',once:true,onEnter:()=>el.classList.add('is-in')}));
-  gsap.utils.toArray('.svc-item, .about__text, .about__cta, .contact__note, .contact__mail, .contact__socials').forEach(el=>
-    gsap.from(el,{opacity:0,y:24,duration:.85,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 92%'}}));
+  gsap.utils.toArray('.about__title, .projects__title, .contact__title, .stat, .svc-item, .about__text, .about__cta, .contact__eyebrow, .contact__note, .contact__mail, .contact__socials').forEach(el=>
+    gsap.from(el,{opacity:0,y:28,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 90%'}}));
 
   /* ---------- hero: avatar parallax + tag/cta in ---------- */
   if(!reduce){
@@ -163,6 +148,13 @@
     }
     gsap.to('.hero__avatar',{yPercent:14,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.4}});
   }
+
+  /* ---------- count-up (stats) ---------- */
+  gsap.utils.toArray('[data-count]').forEach((el)=>{
+    const end=parseFloat(el.dataset.count), suf=el.dataset.suffix||'', o={v:0};
+    gsap.to(o,{v:end, duration:1.8, ease:'power2.out', scrollTrigger:{trigger:el, start:'top 92%', once:true},
+      onUpdate:()=>{el.textContent=Math.round(o.v)+suf;}});
+  });
 
   /* ---------- floating props ---------- */
   if(!reduce)gsap.utils.toArray('[data-float]').forEach((el,i)=>{
