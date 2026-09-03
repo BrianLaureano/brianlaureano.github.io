@@ -55,11 +55,6 @@ img{max-width:100%; display:block}
 /* ---------- scroll progress + cursor ---------- */
 .scroll-progress{position:fixed; top:0; left:0; right:0; height:2px; background:transparent; z-index:120}
 .scroll-progress span{display:block; height:100%; width:0; background:var(--grad)}
-.cursor,.cursor__dot{position:fixed; top:0; left:0; border-radius:50%; pointer-events:none; z-index:130; mix-blend-mode:difference}
-.cursor{width:34px; height:34px; margin:-17px 0 0 -17px; border:1.5px solid #fff; transition:width .25s,height .25s,margin .25s,opacity .25s}
-.cursor.is-hover{width:56px; height:56px; margin:-28px 0 0 -28px}
-.cursor__dot{width:6px; height:6px; margin:-3px 0 0 -3px; background:#fff}
-@media (hover:none){.cursor,.cursor__dot{display:none}}
 
 /* ============================ NAV ============================ */
 .topnav{
@@ -68,6 +63,8 @@ img{max-width:100%; display:block}
   padding:18px clamp(16px,4vw,42px);
   backdrop-filter:blur(10px);
   background:linear-gradient(180deg,rgba(10,10,12,.72),rgba(10,10,12,0));
+  transition:padding .35s var(--ease), background .35s ease, border-color .35s ease;
+  border-bottom:1px solid transparent;
 }
 .topnav__home{
   width:38px; height:38px; flex:0 0 auto; display:grid; place-items:center;
@@ -83,6 +80,9 @@ img{max-width:100%; display:block}
 .topnav__links a::after{content:""; position:absolute; left:0; right:100%; bottom:-2px; height:1.5px; background:var(--grad); transition:right .3s var(--ease)}
 .topnav__links a:hover{color:#fff}
 .topnav__links a:hover::after{right:0}
+.topnav__links a.is-active{color:#fff}
+.topnav__links a.is-active::after{right:0}
+.topnav.is-scrolled{padding-top:12px; padding-bottom:12px; background:rgba(10,10,12,.82); border-bottom:1px solid var(--line)}
 .lang-toggle{
   flex:0 0 auto; background:#17171b; border:1px solid var(--line); color:var(--muted);
   border-radius:999px; padding:7px 12px; font:600 11px/1 "Space Grotesk",Inter; letter-spacing:.1em; cursor:pointer;
@@ -152,9 +152,6 @@ img{max-width:100%; display:block}
   clip-path:polygon(50% 0,100% 38%,82% 100%,18% 100%,0 38%);
   filter:drop-shadow(0 8px 18px rgba(0,0,0,.55)); opacity:.9;
 }
-.hero__scroll{position:absolute; bottom:12px; left:50%; transform:translateX(-50%); z-index:3; display:flex; flex-direction:column; align-items:center; gap:6px; font:600 10px/1 "Space Grotesk"; letter-spacing:.3em; text-transform:uppercase; color:var(--muted)}
-.hero__scroll i{width:1px; height:34px; background:linear-gradient(var(--muted),transparent); animation:scrolldn 1.8s var(--ease) infinite}
-@keyframes scrolldn{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 @media (max-width:640px){
   .hero__tag{font-size:10px; bottom:96px}
   .hero__cta{left:50%; right:auto; transform:translateX(-50%); bottom:34px}
@@ -238,11 +235,16 @@ img{max-width:100%; display:block}
 .proj-stack{max-width:var(--maxw); margin:0 auto; display:flex; flex-direction:column; gap:clamp(18px,3vw,30px)}
 .proj{
   background:linear-gradient(180deg,#131317,#0e0e12); border:1px solid var(--line);
-  border-radius:var(--r); padding:clamp(20px,3vw,30px); position:relative;
-  transition:transform .4s var(--ease),border-color .4s,box-shadow .4s; opacity:0; transform:translateY(30px);
+  border-radius:var(--r); padding:clamp(20px,3vw,30px); position:relative; overflow:hidden;
+  transition:opacity .7s var(--ease),border-color .4s,box-shadow .4s; opacity:0; will-change:transform;
 }
-.proj.is-in{opacity:1; transform:none}
-.proj:hover{transform:translateY(-4px); border-color:rgba(165,61,246,.5); box-shadow:0 30px 60px -30px rgba(123,63,242,.6)}
+.proj.is-in{opacity:1}
+.proj:hover{border-color:rgba(165,61,246,.5); box-shadow:0 40px 80px -40px rgba(123,63,242,.55)}
+.proj__ghost{position:absolute; top:-12px; right:6px; z-index:0; pointer-events:none;
+  font-family:"Archivo Black"; font-size:clamp(120px,20vw,240px); line-height:1; letter-spacing:-.04em;
+  color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.05); user-select:none}
+.proj > :not(.proj__ghost){position:relative; z-index:1}
+.proj__blurb{margin:16px 0 0; max-width:60ch; font-size:clamp(14px,1.7vw,16px); line-height:1.6; color:#b7b7c2}
 .proj__head{display:flex; align-items:center; gap:clamp(14px,3vw,28px); flex-wrap:wrap}
 .proj__n{font-family:"Archivo Black"; font-size:clamp(40px,7vw,82px); line-height:.8; letter-spacing:-.02em;
   background:linear-gradient(180deg,#fff,#8f93a1); -webkit-background-clip:text; background-clip:text; color:transparent}
@@ -259,8 +261,14 @@ img{max-width:100%; display:block}
 .pill--ghost.is-soon{opacity:.45; pointer-events:none}
 .proj__shot{display:block; position:relative; aspect-ratio:16/9; border-radius:14px; overflow:hidden; background:var(--bg-2); border:1px solid var(--line); margin-top:22px}
 .proj__shot img{width:100%; height:100%; object-fit:cover; object-position:top center; transition:transform .6s var(--ease)}
-.proj:hover .proj__shot img{transform:scale(1.03)}
+.proj:hover .proj__shot img{transform:scale(1.04)}
 .proj__shot .shot__ph{position:absolute; inset:0}
+.proj__view{position:absolute; inset:0; z-index:2; display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
+  padding:16px 18px; opacity:0; transition:opacity .35s var(--ease);
+  background:linear-gradient(0deg,rgba(8,8,10,.72),transparent 55%);
+  font:700 12px/1 "Space Grotesk"; letter-spacing:.1em; text-transform:uppercase; color:#fff}
+.proj__view b{display:inline-flex; align-items:center; gap:6px; padding:9px 15px; border-radius:999px; background:var(--grad); box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+.proj:hover .proj__view{opacity:1}
 .proj__tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px}
 .proj__tags span{font:600 10px/1 "Space Grotesk"; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:7px 11px}
 @media (max-width:560px){.proj__shots{grid-template-columns:1fr}.proj__live{margin-left:0; width:100%}.proj__live .pill--ghost{width:100%; justify-content:center}}
