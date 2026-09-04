@@ -64,6 +64,7 @@
                  pt:'Tem um projeto em mente? Eu desenho a história e escrevo o código, do início ao fim, sozinho.'},
     footer:{en:'Designed & coded, one person.',pt:'Desenhado & codado, uma pessoa só.'},
     live:{en:'Live project ↗',pt:'Ver ao vivo ↗'}, soon:{en:'Coming soon',pt:'Em breve'},
+    explore:{en:'Hover to tour · click to open',pt:'Passe o mouse pra explorar · clique pra abrir'},
   };
   let LANG='en';
   try{const s=sessionStorage.getItem('bl-lang'); if(s==='pt'||s==='en')LANG=s;}catch(e){}
@@ -86,32 +87,65 @@
   if(projWrap){
     PROJECTS.forEach(p=>{
       const hasLive=!!p.live;
+      const host=(p.live||'').replace(/^https?:\/\//,'').replace(/\/$/,'');
       const art=document.createElement('article');
       art.className='proj';
       art.innerHTML=`
-        <span class="proj__ghost" aria-hidden="true">${p.n}</span>
-        <div class="proj__head">
+        <div class="proj__info">
           <span class="proj__n">${p.n}</span>
-          <div class="proj__meta">
-            <span class="proj__cat" data-pcat>${p.cat[LANG]}</span>
-            <span class="proj__name">${p.name}</span>
-          </div>
-          <div class="proj__live">
-            ${hasLive
-              ? `<a class="pill--ghost" href="${p.live}" target="_blank" rel="noopener" data-plive>${t('live')}</a>`
-              : `<span class="pill--ghost is-soon" data-psoon>${t('soon')}</span>`}
-          </div>
+          <span class="proj__cat" data-pcat>${p.cat[LANG]}</span>
+          <h3 class="proj__name">${p.name}</h3>
+          <p class="proj__blurb" data-pblurb>${p.blurb[LANG]}</p>
+          <div class="proj__tags">${p.tags.map(x=>`<span>${x}</span>`).join('')}</div>
+          ${hasLive
+            ? `<a class="proj__cta" href="${p.live}" target="_blank" rel="noopener" data-plive>${t('live')}</a>`
+            : `<span class="proj__cta is-soon" data-psoon>${t('soon')}</span>`}
         </div>
-        <p class="proj__blurb" data-pblurb>${p.blurb[LANG]}</p>
-        <a class="proj__shot" tabindex="-1" aria-hidden="true" ${hasLive?`href="${p.live}" target="_blank" rel="noopener"`:''}>
-          <img src="${p.shot}" alt="${p.name}" loading="lazy"
-             onerror="this.parentNode.classList.add('is-empty');this.parentNode.innerHTML='<div class=&quot;shot__ph&quot;><b>${p.name}</b></div>'"/>
-          ${hasLive?`<span class="proj__view" aria-hidden="true"><span>${p.name}</span><b>Open live ↗</b></span>`:''}
-        </a>
-        <div class="proj__tags">${p.tags.map(x=>`<span>${x}</span>`).join('')}</div>`;
+        <div class="proj__frame" ${hasLive?`data-frame data-src="${p.live}"`:''}>
+          <div class="proj__bar" aria-hidden="true"><i></i><i></i><i></i><span>${host||'coming soon'}</span></div>
+          <div class="proj__viewport">
+            <div class="proj__scaler"><iframe title="${p.name}" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin allow-popups"></iframe></div>
+            <img class="proj__poster" src="${p.shot}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'"/>
+            ${hasLive?`<a class="proj__cue" href="${p.live}" target="_blank" rel="noopener"><span class="proj__spin"></span><b data-pcue>${t('explore')}</b></a>`:''}
+          </div>
+        </div>`;
       art._data=p; projWrap.appendChild(art);
     });
   }
+
+  /* ---------- live project previews (scaled iframe + hover tour) ---------- */
+  (function previews(){
+    const DESIGN_W=1440, DESIGN_H=2400;
+    const frames=[...document.querySelectorAll('[data-frame]')];
+    if(!frames.length) return;
+    function scale(f){
+      const vp=f.querySelector('.proj__viewport'), sc=f.querySelector('.proj__scaler');
+      const w=vp.clientWidth, s=w/DESIGN_W;
+      sc.style.width=DESIGN_W+'px'; sc.style.height=DESIGN_H+'px'; sc.style.transform='translateY(0) scale('+s+')';
+      f._s=s; f._scaledH=DESIGN_H*s; f._vpH=vp.clientHeight;
+    }
+    const scaleAll=()=>frames.forEach(scale); scaleAll();
+    window.addEventListener('resize',scaleAll);
+    const canLive=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+    if(!canLive) return;                         // touch: keep posters (saves data); CTA opens live
+    frames.forEach(f=>{
+      const sc=f.querySelector('.proj__scaler'), ifr=f.querySelector('iframe');
+      let raf=0, t0=0; const dur=9000;
+      function step(ts){
+        if(!t0)t0=ts; const el=ts-t0;
+        const travel=Math.max(0,(f._scaledH||0)-(f._vpH||0));
+        const ph=(el%(dur*2))/dur; const k=ph<=1?ph:2-ph;
+        sc.style.transform='translateY('+(-k*travel)+'px) scale('+f._s+')';
+        raf=requestAnimationFrame(step);
+      }
+      f.addEventListener('mouseenter',()=>{
+        if(!f._loaded){ f._loaded=1; ifr.addEventListener('load',()=>{ f.classList.add('is-live'); scale(f); }); ifr.src=f.dataset.src; }
+        if(reduce)return; t0=0; cancelAnimationFrame(raf); raf=requestAnimationFrame(step);
+      });
+      f.addEventListener('mouseleave',()=>{ cancelAnimationFrame(raf); sc.style.transform='translateY(0) scale('+f._s+')'; });
+      f.addEventListener('click',()=>{ if(f.dataset.src) window.open(f.dataset.src,'_blank','noopener'); });
+    });
+  })();
 
   /* ---------- lang apply ---------- */
   function applyLang(l){
@@ -120,7 +154,7 @@
     document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[k])el.innerHTML=I18N[k][l];});
     document.querySelectorAll('.lang-toggle [data-lang]').forEach(s=>s.classList.toggle('is-active', s.dataset.lang===l));
     document.querySelectorAll('.svc-item').forEach(li=>{if(li._data){li.querySelector('[data-stitle]').textContent=li._data.t[l]; li.querySelector('[data-sdesc]').textContent=li._data.d[l];}});
-    document.querySelectorAll('.proj').forEach(a=>{if(a._data){a.querySelector('[data-pcat]').textContent=a._data.cat[l]; const bl=a.querySelector('[data-pblurb]'); if(bl)bl.textContent=a._data.blurb[l]; const lv=a.querySelector('[data-plive]'); if(lv)lv.textContent=t('live'); const sn=a.querySelector('[data-psoon]'); if(sn)sn.textContent=t('soon');}});
+    document.querySelectorAll('.proj').forEach(a=>{if(a._data){a.querySelector('[data-pcat]').textContent=a._data.cat[l]; const bl=a.querySelector('[data-pblurb]'); if(bl)bl.textContent=a._data.blurb[l]; const lv=a.querySelector('[data-plive]'); if(lv)lv.textContent=t('live'); const sn=a.querySelector('[data-psoon]'); if(sn)sn.textContent=t('soon'); const cu=a.querySelector('[data-pcue]'); if(cu)cu.textContent=t('explore');}});
   }
   applyLang(LANG);
   const langBtn=document.querySelector('.lang-toggle');
@@ -189,11 +223,11 @@
         gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.35,y:(e.clientY-r.top-r.height/2)*.5,duration:.4,ease:'power2.out'});});
       btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.5,ease:'elastic.out(1,.4)'}));
     });
-    /* card cursor-tilt */
-    document.querySelectorAll('.proj').forEach(card=>{
+    /* live-frame cursor-tilt (just the preview, not the text) */
+    document.querySelectorAll('.proj__frame').forEach(card=>{
       card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();
         const rx=(e.clientY-r.top-r.height/2)/r.height, ry=(e.clientX-r.left-r.width/2)/r.width;
-        gsap.to(card,{rotationX:-rx*4,rotationY:ry*5,duration:.5,ease:'power2.out',transformPerspective:1200,transformOrigin:'center'});});
+        gsap.to(card,{rotationX:-rx*3.5,rotationY:ry*4.5,duration:.5,ease:'power2.out',transformPerspective:1400,transformOrigin:'center'});});
       card.addEventListener('mouseleave',()=>gsap.to(card,{rotationX:0,rotationY:0,duration:.7,ease:'power3.out'}));
     });
   }
