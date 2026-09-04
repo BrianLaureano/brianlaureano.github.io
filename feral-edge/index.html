@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VARG-IX // Feral Edge</title>
+  <meta name="description" content="VARG-IX Feral Edge - a cinematic concept page for an original berserker operative. Retract, strike, vanish." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230c0a08'/%3E%3Cg stroke='%23ff8a2b' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M11 6v20M16 6v20M21 6v20'/%3E%3C/g%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip" href="#specs">Skip to specs</a>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="hemo" aria-hidden="true"></div>
+
+  <!-- top bar -->
+  <header class="bar">
+    <div class="bar__left">
+      <button class="iconbtn" aria-label="Back"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <span class="brand">VARG-IX <i>//</i> <span>FERAL</span></span>
+    </div>
+    <div class="bar__right">
+      <button class="sound" data-sound aria-label="Toggle sound" aria-pressed="false">
+        <span class="sound__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="sound__txt">SFX OFF</span>
+      </button>
+      <span class="counter"><b data-counter>01</b> / 26</span>
+    </div>
+  </header>
+
+  <main class="stage">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="glow glow--crimson" aria-hidden="true"></div>
+    <canvas class="embers" aria-hidden="true"></canvas>
+    <div class="hud" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+    <svg class="blood" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="bl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#640c0c"/><stop offset="1" stop-color="#2a0404"/></linearGradient></defs>
+      <rect width="1200" height="16" fill="url(#bl)"/>
+      <path fill="url(#bl)" d="M52 0 h16 v64 q-8 17 -16 0 z"/>
+      <path fill="url(#bl)" d="M150 0 h14 v118 q-7 16 -14 0 z"/>
+      <path fill="url(#bl)" d="M300 0 h12 v42 q-6 14 -12 0 z"/>
+      <path fill="url(#bl)" d="M446 0 h18 v154 q-9 18 -18 0 z"/>
+      <path fill="url(#bl)" d="M560 0 h13 v72 q-6.5 15 -13 0 z"/>
+      <path fill="url(#bl)" d="M690 0 h15 v104 q-7.5 16 -15 0 z"/>
+      <path fill="url(#bl)" d="M820 0 h12 v50 q-6 14 -12 0 z"/>
+      <path fill="url(#bl)" d="M962 0 h16 v138 q-8 17 -16 0 z"/>
+      <path fill="url(#bl)" d="M1092 0 h13 v82 q-6.5 15 -13 0 z"/>
+      <ellipse class="drip" cx="455" cy="188" rx="6" ry="9" fill="#4a0808"/>
+      <ellipse class="drip drip--2" cx="970" cy="172" rx="5" ry="8" fill="#4a0808"/>
+    </svg>
+    <svg class="gore gore--a" viewBox="0 0 200 200" aria-hidden="true"><g fill="#560a0a"><circle cx="40" cy="60" r="11"/><circle cx="72" cy="38" r="4"/><circle cx="92" cy="82" r="6"/><circle cx="28" cy="104" r="3"/><circle cx="120" cy="52" r="3"/><circle cx="60" cy="126" r="5"/><ellipse cx="104" cy="112" rx="15" ry="8"/><circle cx="150" cy="92" r="2.5"/></g></svg>
+    <svg class="gore gore--b" viewBox="0 0 200 200" aria-hidden="true"><g fill="#560a0a"><circle cx="150" cy="140" r="12"/><circle cx="120" cy="160" r="4"/><circle cx="170" cy="110" r="5"/><circle cx="100" cy="130" r="3"/><ellipse cx="140" cy="90" rx="13" ry="7"/><circle cx="60" cy="150" r="3"/></g></svg>
+
+    <!-- hero figure with interactive part hotspots + head unmask -->
+    <figure class="hero" data-hero aria-label="VARG-IX operative">
+      <span class="hero__ground" aria-hidden="true"></span>
+      <div class="hero__inner" data-parallax>
+        <img class="hero__img hero__img--armor" src="assets/hero-armored.webp" alt=""
+             onerror="this.closest('.hero').classList.add('is-empty');this.remove()" />
+        <img class="hero__img hero__img--feral" src="assets/hero-feral.webp" alt=""
+             onerror="this.remove()" />
+        <span class="hero__glint" aria-hidden="true"></span>
+        <span class="hero__scan" aria-hidden="true"></span>
+
+        <!-- part hotspots: hover reveals the piece + lights its spec -->
+        <button class="spot" data-spot="mask" data-spec="reflex" style="--x:50%;--y:13.5%"
+                aria-label="Shadow mask, 180Hz Kill-Sync">
+          <span class="spot__halo"></span><span class="spot__dot"></span>
+          <span class="spot__card"><b>Mask // Reflex</b><span>180Hz Kill-Sync HUD</span></span>
+        </button>
+        <button class="spot" data-spot="core" data-spec="core" style="--x:60%;--y:32%"
+                aria-label="Feral drive harness">
+          <span class="spot__halo"></span><span class="spot__dot"></span>
+          <span class="spot__card"><b>Harness // Core</b><span>R9 Feral Drive</span></span>
+        </button>
+        <button class="spot" data-spot="shell" data-spec="shell" style="--x:56%;--y:50%"
+                aria-label="Shadow-weave shell plating">
+          <span class="spot__halo"></span><span class="spot__dot"></span>
+          <span class="spot__card"><b>Coat // Shell</b><span>Shadow-Weave Plate</span></span>
+        </button>
+        <button class="spot" data-spot="edge" data-spec="edge" style="--x:40%;--y:63%"
+                aria-label="Tri-blade claw gauntlet">
+          <span class="spot__halo"></span><span class="spot__dot"></span>
+          <span class="spot__card"><b>Claws // Edge</b><span>Tri-blade Hardline</span></span>
+        </button>
+
+        <div class="reticle" aria-hidden="true">
+          <span class="reticle__ring"></span>
+          <span class="reticle__cross"></span>
+          <b class="reticle__tag" data-reticle>SCANNING</b>
+        </div>
+      </div>
+      <span class="hero__fallback" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v18M12 3v18M16 3v18"/></svg>
+      </span>
+    </figure>
+
+    <!-- headline block -->
+    <section class="lede">
+      <p class="kicker"><span class="dot"></span> VARG-IX <i>//</i> OPERATIVE</p>
+      <h1 class="title">
+        <span class="title__l" data-line>FERAL</span>
+        <span class="title__l" data-line>EDGE</span>
+      </h1>
+      <p class="sub" data-line>Forged for those who don't wait for the hunt. They become it. Retract, strike, vanish, before the room knows you moved.</p>
+      <div class="tools" aria-hidden="true">
+        <button class="round" aria-label="Rotate"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 4v4h-4"/></svg></button>
+        <button class="round" aria-label="Compare"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h7"/></svg></button>
+        <button class="round" aria-label="Expand"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 15v5h-5M15 4h5v5M9 20H4v-5"/></svg></button>
+      </div>
+      <p class="hint" data-hint>Scan across the operative to reveal what's under. Hover the dots for specs.</p>
+    </section>
+
+    <!-- specs -->
+    <section class="specs" id="specs" aria-label="Operative specs">
+      <p class="specs__head">OPERATIVE SPECS</p>
+      <dl class="specs__list">
+        <div class="spec" data-spec="edge"><dt>Edge</dt><dd>Tri-blade Hardline</dd></div>
+        <div class="spec" data-spec="core"><dt>Core</dt><dd>R9 Feral Drive</dd></div>
+        <div class="spec" data-spec="reflex"><dt>Reflex</dt><dd>180Hz Kill-Sync</dd></div>
+        <div class="spec" data-spec="shell"><dt>Shell</dt><dd>Shadow-Weave Plate</dd></div>
+      </dl>
+    </section>
+
+    <!-- product card -->
+    <aside class="card" aria-label="Featured module">
+      <span class="card__thumb"><img src="assets/module.webp" alt="" onerror="this.closest('.card__thumb').classList.add('is-empty');this.remove()"/></span>
+      <div class="card__body">
+        <p class="card__name">CL-01 <i>//</i> Claw Frame</p>
+        <p class="card__desc">Hardened-alloy claws, balanced for a silent draw.</p>
+      </div>
+      <button class="card__cta">Reserve <span aria-hidden="true">↗</span></button>
+    </aside>
+  </main>
+
+  <!-- ===================== DOSSIER (scroll down) ===================== -->
+  <section class="dossier" id="dossier" aria-label="Specimen dossier">
+    <div class="dossier__grid" aria-hidden="true"></div>
+    <header class="dossier__head">
+      <p class="dossier__tag"><span class="rec" aria-hidden="true"></span> CLASSIFIED // BUILD SCHEMATIC</p>
+      <h2 class="dossier__title">SPECIMEN <span>DOSSIER</span></h2>
+      <p class="dossier__lead">Recovered build data for operative VARG-IX. Handle under containment protocol.</p>
+    </header>
+
+    <div class="dossier__body">
+      <!-- left: file -->
+      <div class="file" data-rise>
+        <p class="file__head">FIELD FILE</p>
+        <div class="file__row"><span>Designation</span><b>VARG-IX</b></div>
+        <div class="file__row"><span>Class</span><b>Feral // Berserker</b></div>
+        <div class="file__row"><span>Origin</span><b class="redact">REDACTED</b></div>
+        <div class="file__row"><span>Threat</span><b class="danger">SEVERE</b></div>
+        <div class="file__row"><span>Status</span><b>Contained</b></div>
+      </div>
+
+      <!-- center: schematic + annotations -->
+      <div class="schem" data-schem>
+        <span class="schem__glow" aria-hidden="true"></span>
+        <img class="schem__img" src="assets/blueprint.webp" alt="Orthographic schematic of operative VARG-IX"
+             onerror="this.closest('.schem').classList.add('is-empty');this.remove()" />
+        <span class="schem__grid" aria-hidden="true"></span>
+        <span class="schem__scan" aria-hidden="true"></span>
+        <span class="schem__beam" aria-hidden="true"></span>
+        <span class="schem__fallback" aria-hidden="true">SCHEMATIC UNAVAILABLE</span>
+        <span class="anno" style="--x:50%;--y:12%" data-anno><i></i><b>Cranial HUD</b><small>180Hz Kill-Sync</small></span>
+        <span class="anno anno--l" style="--x:33%;--y:58%" data-anno><i></i><b>Tri-blade actuators</b><small>Hardline edge</small></span>
+        <span class="anno anno--r" style="--x:63%;--y:36%" data-anno><i></i><b>Feral drive</b><small>R9 core</small></span>
+        <span class="anno anno--r" style="--x:57%;--y:76%" data-anno><i></i><b>Shadow-weave derma</b><small>Ablative shell</small></span>
+      </div>
+
+      <!-- right: vitals -->
+      <div class="vitals" data-rise>
+        <p class="vitals__head">BIOMETRICS</p>
+        <div class="gauge" style="--v:88%"><span>Aggression</span><i data-fill></i><b>88</b></div>
+        <div class="gauge" style="--v:96%"><span>Reflex</span><i data-fill></i><b>96</b></div>
+        <div class="gauge" style="--v:71%"><span>Shell integrity</span><i data-fill></i><b>71</b></div>
+        <div class="gauge gauge--max" style="--v:100%"><span>Regen rate</span><i data-fill></i><b>MAX</b></div>
+      </div>
+    </div>
+
+    <div class="termlog" data-termlog>
+      <p class="termlog__head"><span class="termlog__dot" aria-hidden="true"></span> CONTAINMENT LOG // LIVE</p>
+      <pre class="termlog__out" data-log aria-hidden="true"></pre>
+    </div>
+
+    <p class="dossier__warn"><span class="warn__i" aria-hidden="true">!</span> PROPERTY OF ORSK BIOLABS &middot; SPECIMEN VOLATILE &middot; DO NOT DISENGAGE THE SHELL</p>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

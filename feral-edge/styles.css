@@ -1,0 +1,368 @@
+/* ============================================================
+   VARG-IX // Feral Edge - cinematic concept page
+   (original character, inspired by the "Ronin-X" reference layout)
+   ============================================================ */
+:root{
+  --bg:      #0c0a08;
+  --bg-2:    #17100a;
+  --amber:   #ff8a2b;
+  --amber-2: #ffb15a;
+  --ember:   #e8641a;
+  --ink:     #f4ece1;
+  --muted:   #a2937f;
+  --line:    rgba(255,178,110,.15);
+  --ease:    cubic-bezier(.22,1,.36,1);
+  --pad:     clamp(18px,4vw,54px);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); overflow-x:hidden;
+  font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block; max-width:100%}
+button{font:inherit; color:inherit; background:none; border:none; cursor:pointer}
+::selection{background:var(--ember); color:#fff}
+
+/* ---- overlays ---- */
+.grain{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.06; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.vignette{position:fixed; inset:0; z-index:55; pointer-events:none;
+  background:radial-gradient(120% 90% at 62% 45%,transparent 40%,rgba(0,0,0,.55) 100%)}
+/* blood-red heartbeat vignette (throbs harder while scanning the specimen) */
+.hemo{position:fixed; inset:0; z-index:56; pointer-events:none; mix-blend-mode:multiply; opacity:.4;
+  background:radial-gradient(135% 105% at 50% 48%,transparent 52%,rgba(96,8,8,.6) 100%);
+  animation:heart 3.6s ease-in-out infinite}
+@keyframes heart{0%,100%{opacity:.36}50%{opacity:.6}}
+body:has(.hero.is-reveal) .hemo,body:has(.hero.is-locked) .hemo{opacity:.9; animation-duration:1.5s}
+
+/* dripping blood + spatter */
+.blood{position:absolute; top:0; left:0; width:100%; height:clamp(80px,14vh,150px); z-index:4; pointer-events:none;
+  opacity:.92; filter:drop-shadow(0 5px 7px rgba(0,0,0,.5))}
+.blood .drip{animation:bleed 5s ease-in 1.4s infinite}
+.blood .drip--2{animation-duration:6.5s; animation-delay:3s}
+@keyframes bleed{0%{transform:translateY(-10px); opacity:0}12%{opacity:1}100%{transform:translateY(58px); opacity:0}}
+.gore{position:absolute; z-index:1; width:min(28vw,280px); opacity:.55; pointer-events:none}
+.gore--a{top:9%; left:1%}
+.gore--b{bottom:7%; right:1%}
+@media (max-width:640px){.gore{width:44vw; opacity:.4}}
+
+/* ---- top bar ---- */
+.bar{position:fixed; top:0; left:0; right:0; z-index:40; display:flex; align-items:center; justify-content:space-between;
+  padding:clamp(14px,2.6vw,26px) var(--pad)}
+.bar__left{display:flex; align-items:center; gap:14px}
+.iconbtn{width:34px; height:34px; display:grid; place-items:center; border-radius:50%;
+  border:1px solid var(--line); color:var(--ink); transition:background .25s,transform .25s var(--ease)}
+.iconbtn:hover{background:rgba(255,138,43,.12); transform:translateY(-1px)}
+.brand{font:700 12px/1 "Space Mono",monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--ink)}
+.brand i{color:var(--amber); font-style:normal; margin:0 2px}
+.brand span{color:var(--muted)}
+.bar__right{display:flex; align-items:center; gap:14px}
+.counter{font:700 12px/1 "Space Mono",monospace; letter-spacing:.2em; color:var(--muted)}
+.counter b{color:var(--amber)}
+.sound{display:inline-flex; align-items:center; gap:8px; padding:7px 12px; border-radius:999px; border:1px solid var(--line);
+  color:var(--muted); font:700 10px/1 "Space Mono",monospace; letter-spacing:.14em; cursor:pointer;
+  transition:color .2s,border-color .2s,background .2s}
+.sound:hover{color:var(--ink); border-color:rgba(255,138,43,.5)}
+.sound.is-on{color:var(--amber-2); border-color:rgba(255,138,43,.55); background:rgba(255,138,43,.08)}
+.sound__bars{display:inline-flex; align-items:flex-end; gap:2px; height:13px}
+.sound__bars i{width:2.5px; height:4px; background:currentColor; border-radius:1px}
+.sound.is-on .sound__bars i{animation:eq .9s ease-in-out infinite}
+.sound.is-on .sound__bars i:nth-child(2){animation-delay:.15s}
+.sound.is-on .sound__bars i:nth-child(3){animation-delay:.3s}
+.sound.is-on .sound__bars i:nth-child(4){animation-delay:.45s}
+@keyframes eq{0%,100%{height:4px}50%{height:13px}}
+@media (max-width:640px){.sound__txt{display:none}}
+
+/* ---- stage ---- */
+.stage{position:relative; min-height:100svh; overflow:hidden}
+.glow{position:absolute; z-index:0; inset:auto; width:min(85vw,1100px); height:min(85vw,1100px);
+  top:50%; left:62%; transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(255,120,35,.42),rgba(232,100,26,.14) 42%,transparent 68%);
+  filter:blur(20px); pointer-events:none; animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.9; transform:translate(-50%,-50%) scale(1)}50%{opacity:1; transform:translate(-50%,-50%) scale(1.05)}}
+.glow--crimson{z-index:0; background:radial-gradient(circle,rgba(220,40,48,.5),rgba(150,20,30,.15) 44%,transparent 66%);
+  opacity:0; transition:opacity .7s var(--ease); animation:none}
+.glow--crimson{background:radial-gradient(circle,rgba(200,20,26,.62),rgba(120,10,14,.2) 44%,transparent 66%)}
+.stage:has(.hero.is-reveal) .glow--crimson,.stage:has(.hero.is-locked) .glow--crimson{opacity:.6}
+.embers{position:absolute; inset:0; z-index:2; width:100%; height:100%; pointer-events:none; mix-blend-mode:screen}
+/* subtle monitor scanlines over the scene */
+.stage::after{content:""; position:absolute; inset:0; z-index:2; pointer-events:none; opacity:.35; mix-blend-mode:overlay;
+  background:repeating-linear-gradient(rgba(0,0,0,0) 0 2px,rgba(0,0,0,.12) 2px 3px)}
+/* viewfinder corner brackets */
+.hud{position:absolute; inset:clamp(14px,2.4vw,26px); z-index:5; pointer-events:none}
+.hud i{position:absolute; width:24px; height:24px; border:1.5px solid rgba(255,138,43,.42)}
+.hud i:nth-child(1){top:0; left:0; border-right:0; border-bottom:0}
+.hud i:nth-child(2){top:0; right:0; border-left:0; border-bottom:0}
+.hud i:nth-child(3){bottom:0; left:0; border-right:0; border-top:0}
+.hud i:nth-child(4){bottom:0; right:0; border-left:0; border-top:0}
+
+/* ---- hero figure (hover unmask) ---- */
+.hero{position:absolute; z-index:1; margin:0; top:52%; left:59%; transform:translate(-50%,-50%);
+  width:min(88vw,1040px); height:min(116svh,1200px); pointer-events:auto; will-change:transform}
+.hero__img{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; object-position:bottom center;
+  filter:drop-shadow(0 30px 60px rgba(0,0,0,.6)); transition:opacity .6s var(--ease), transform .3s var(--ease)}
+/* feral (unmasked) render overlays the armored base and is revealed only inside a
+   soft lens that FOLLOWS the cursor (JS sets --mx/--my), so scanning any part of the
+   body reveals the operative underneath. Clicking / Compare locks a full reveal. */
+.hero__img--feral{opacity:0; transition:opacity .35s var(--ease); --mx:50%; --my:26%;
+  -webkit-mask-image:radial-gradient(ellipse 22% 16% at var(--mx) var(--my),#000 52%,transparent 80%);
+          mask-image:radial-gradient(ellipse 22% 16% at var(--mx) var(--my),#000 52%,transparent 80%);
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat}
+.hero.is-reveal .hero__img--feral{opacity:1}
+.hero.is-locked .hero__img--feral{opacity:1; -webkit-mask-image:none; mask-image:none}
+.hero__scan{position:absolute; left:6%; right:6%; top:0; height:2px; opacity:0; z-index:2; pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--amber-2),transparent);
+  box-shadow:0 0 18px 3px rgba(255,138,43,.6)}
+.hero.is-scan .hero__scan{animation:scan .7s var(--ease)}
+@keyframes scan{0%{opacity:1; top:4%}100%{opacity:0; top:96%}}
+/* contact shadow grounds the cut-out figure */
+.hero__ground{position:absolute; z-index:0; left:50%; bottom:2%; width:70%; height:9%; transform:translateX(-50%);
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.7),transparent 70%); filter:blur(10px)}
+/* soft roaming glint over the figure */
+.hero__glint{position:absolute; z-index:2; inset:0; pointer-events:none; opacity:.5;
+  background:radial-gradient(120px 220px at 42% 32%,rgba(255,190,120,.28),transparent 60%);
+  mix-blend-mode:screen; animation:glint 6s ease-in-out infinite}
+@keyframes glint{0%,100%{opacity:.35; transform:translate(0,0)}50%{opacity:.6; transform:translate(10px,-6px)}}
+.hero__img{z-index:1}
+.hero__inner{position:absolute; inset:0; will-change:transform}
+
+/* scanner reticle (follows the cursor while revealing) */
+.reticle{position:absolute; z-index:5; left:0; top:0; width:min(32vw,340px); height:min(32vw,340px);
+  transform:translate(-50%,-50%); pointer-events:none; opacity:0; transition:opacity .25s var(--ease)}
+.hero.is-reveal .reticle{opacity:1}
+.reticle__ring{position:absolute; inset:14%; border-radius:50%; border:1.5px solid rgba(255,180,90,.75);
+  box-shadow:0 0 22px rgba(255,138,43,.55),inset 0 0 34px rgba(255,138,43,.22)}
+.reticle__ring::after{content:""; position:absolute; inset:-6px; border-radius:50%;
+  border:1.5px dashed rgba(255,180,90,.4); border-left-color:transparent; border-right-color:transparent; animation:spin 7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.reticle__cross::before,.reticle__cross::after{content:""; position:absolute; background:rgba(255,190,110,.7)}
+.reticle__cross::before{left:50%; top:34%; bottom:34%; width:1px; transform:translateX(-50%)}
+.reticle__cross::after{top:50%; left:34%; right:34%; height:1px; transform:translateY(-50%)}
+.reticle__tag{position:absolute; left:50%; bottom:2%; transform:translateX(-50%); white-space:nowrap;
+  font:700 9px/1 "Space Mono",monospace; letter-spacing:.2em; color:var(--amber-2); text-shadow:0 0 8px rgba(255,138,43,.7)}
+
+/* ---- part hotspots ---- */
+.spot{position:absolute; left:var(--x); top:var(--y); transform:translate(-50%,-50%); z-index:6;
+  width:26px; height:26px; display:grid; place-items:center; cursor:pointer}
+.spot__dot{position:relative; z-index:2; width:11px; height:11px; border-radius:50%;
+  background:var(--amber); box-shadow:0 0 8px 1px rgba(255,138,43,.7); transition:background .2s,transform .25s var(--ease)}
+.spot__dot::after{content:""; position:absolute; inset:0; border-radius:50%;
+  box-shadow:0 0 0 0 rgba(255,138,43,.55); animation:ping 2.6s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,138,43,.55)}100%{box-shadow:0 0 0 15px rgba(255,138,43,0)}}
+.spot__halo{position:absolute; z-index:1; left:50%; top:50%; width:240px; height:240px; transform:translate(-50%,-50%);
+  border-radius:50%; background:radial-gradient(circle,rgba(255,175,90,.22),transparent 62%);
+  opacity:0; transition:opacity .3s; pointer-events:none}
+.spot__card{position:absolute; z-index:3; left:50%; bottom:30px; transform:translateX(-50%) translateY(8px);
+  white-space:nowrap; padding:9px 13px; border-radius:11px; border:1px solid var(--line);
+  background:rgba(16,11,8,.88); backdrop-filter:blur(10px); opacity:0; pointer-events:none;
+  transition:opacity .25s,transform .3s var(--ease)}
+.spot__card::after{content:""; position:absolute; left:50%; bottom:-5px; width:9px; height:9px;
+  transform:translateX(-50%) rotate(45deg); background:rgba(16,11,8,.88);
+  border-right:1px solid var(--line); border-bottom:1px solid var(--line)}
+.spot__card b{display:block; font:700 10px/1.3 "Space Mono",monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--amber-2)}
+.spot__card span{font-size:12px; color:var(--ink)}
+.spot:hover .spot__dot,.spot:focus-visible .spot__dot,.spot.is-open .spot__dot{background:var(--amber-2); transform:scale(1.25)}
+.spot:hover .spot__halo,.spot:focus-visible .spot__halo,.spot.is-open .spot__halo{opacity:1}
+.spot:hover .spot__card,.spot:focus-visible .spot__card,.spot.is-open .spot__card{opacity:1; transform:translateX(-50%) translateY(0)}
+/* bigger tap target on touch */
+@media (hover:none){.spot{width:40px; height:40px}}
+
+.hero__fallback{display:none}
+.hero.is-empty{display:grid; place-items:center; border:1px dashed var(--line); border-radius:20px; background:rgba(255,138,43,.04)}
+.hero.is-empty .hero__fallback{display:block; color:var(--amber)}
+
+/* ---- lede (headline) ---- */
+.lede{position:absolute; z-index:3; top:clamp(84px,13vh,150px); left:var(--pad); max-width:min(46vw,520px)}
+.kicker{display:flex; align-items:center; gap:9px; margin:0 0 clamp(10px,2vw,18px);
+  font:700 11px/1 "Space Mono",monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--amber-2)}
+.kicker i{font-style:normal; color:var(--muted)}
+.kicker .dot{width:7px; height:7px; border-radius:50%; background:var(--amber); box-shadow:0 0 0 4px rgba(255,138,43,.16); animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(255,138,43,0)}}
+.title{margin:0; font-family:"Anton",Impact,sans-serif; font-weight:400; line-height:.84;
+  font-size:clamp(64px,12vw,168px); letter-spacing:.005em; text-transform:uppercase}
+.title__l{display:block; color:var(--ink); text-shadow:0 2px 40px rgba(255,120,35,.35)}
+.title__l:nth-child(2){color:transparent; -webkit-text-stroke:1.5px var(--amber-2);
+  text-shadow:0 0 34px rgba(255,138,43,.35); animation:neon 6s steps(1) 2s infinite}
+@keyframes neon{0%,90%,100%{opacity:1}91%{opacity:.35}92%{opacity:1}94%{opacity:.6}95%{opacity:1}}
+.sub{margin:clamp(16px,2.4vw,26px) 0 0; max-width:40ch; font-size:clamp(14px,1.5vw,16px); line-height:1.65; color:#c9bcac}
+.tools{display:flex; gap:10px; margin-top:clamp(18px,2.6vw,28px)}
+.round{width:40px; height:40px; display:grid; place-items:center; border-radius:50%;
+  border:1px solid var(--line); color:var(--ink); transition:background .25s,transform .25s var(--ease),border-color .25s}
+.round:hover{background:rgba(255,138,43,.14); border-color:rgba(255,138,43,.5); transform:translateY(-2px)}
+.round.is-on{background:rgba(255,138,43,.2); border-color:rgba(255,138,43,.6); color:var(--amber-2)}
+.hint{margin:clamp(16px,2.4vw,26px) 0 0; font:700 10px/1.4 "Space Mono",monospace; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); opacity:.8}
+
+/* ---- specs (right) ---- */
+.specs{position:absolute; z-index:3; right:var(--pad); top:50%; transform:translateY(-50%); width:min(30vw,300px); text-align:right}
+.specs__head{margin:0 0 16px; font:700 11px/1 "Space Mono",monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--amber-2)}
+.specs__list{margin:0; padding:0}
+.spec{display:flex; align-items:baseline; justify-content:space-between; gap:14px; padding:13px 0; border-top:1px solid var(--line); transition:padding-right .3s var(--ease)}
+.spec:last-child{border-bottom:1px solid var(--line)}
+.spec dt{margin:0; font:700 10px/1 "Space Mono",monospace; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); transition:color .25s}
+.spec dd{margin:0; font-size:14px; font-weight:500; color:var(--ink); transition:color .25s}
+.spec:hover{padding-right:6px}
+.spec:hover dt{color:var(--amber-2)}
+.spec:hover dd{color:var(--amber-2)}
+.spec.is-lit{box-shadow:inset -2px 0 0 var(--amber); background:linear-gradient(270deg,rgba(255,138,43,.1),transparent)}
+.spec.is-lit dt,.spec.is-lit dd{color:var(--amber-2)}
+
+/* ---- product card (bottom-left) ---- */
+.card{position:absolute; z-index:4; left:var(--pad); bottom:clamp(20px,4vh,40px);
+  display:flex; align-items:center; gap:14px; padding:12px 14px; max-width:min(88vw,420px);
+  border:1px solid var(--line); border-radius:16px; background:rgba(18,13,9,.66); backdrop-filter:blur(12px)}
+.card__thumb{width:52px; height:52px; flex:0 0 auto; border-radius:11px; overflow:hidden; background:#241812; border:1px solid var(--line)}
+.card__thumb img{width:100%; height:100%; object-fit:cover}
+.card__thumb.is-empty{background:radial-gradient(circle at 40% 30%,#3a2415,#1a1109)}
+.card__body{min-width:0}
+.card__name{margin:0; font:700 12px/1.2 "Space Mono",monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--ink)}
+.card__name i{font-style:normal; color:var(--amber)}
+.card__desc{margin:4px 0 0; font-size:12px; line-height:1.4; color:var(--muted)}
+.card__cta{margin-left:auto; flex:0 0 auto; padding:11px 18px; border-radius:999px; white-space:nowrap;
+  font:700 11px/1 "Space Mono",monospace; letter-spacing:.14em; text-transform:uppercase; color:#180d05;
+  background:linear-gradient(180deg,var(--amber-2),var(--ember));
+  box-shadow:0 8px 22px -8px rgba(232,100,26,.7), inset 0 1px 0 rgba(255,255,255,.4);
+  transition:transform .3s var(--ease),box-shadow .3s}
+.card__cta:hover{transform:translateY(-2px); box-shadow:0 14px 30px -8px rgba(232,100,26,.85), inset 0 1px 0 rgba(255,255,255,.5)}
+
+/* ---- focus + skip ---- */
+:focus{outline:none}
+:focus-visible{outline:2px solid var(--amber-2); outline-offset:3px}
+.skip{position:fixed; top:10px; left:10px; z-index:80; transform:translateY(-160%);
+  background:linear-gradient(180deg,var(--amber-2),var(--ember)); color:#180d05; padding:11px 18px; border-radius:12px;
+  font:700 11px/1 "Space Mono",monospace; letter-spacing:.1em; text-transform:uppercase; transition:transform .22s var(--ease)}
+.skip:focus{transform:none}
+
+/* ============================ DOSSIER ============================ */
+.dossier{position:relative; overflow:hidden; padding:clamp(64px,10vw,120px) var(--pad) clamp(70px,9vw,110px);
+  background:#08070a; border-top:1px solid var(--line)}
+.dossier__grid{position:absolute; inset:0; z-index:0; pointer-events:none; opacity:.5;
+  background-image:linear-gradient(rgba(255,138,43,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,138,43,.06) 1px,transparent 1px);
+  background-size:42px 42px;
+  -webkit-mask:radial-gradient(120% 80% at 50% 40%,#000 45%,transparent 100%); mask:radial-gradient(120% 80% at 50% 40%,#000 45%,transparent 100%)}
+.dossier > :not(.dossier__grid){position:relative; z-index:1}
+.dossier__head{text-align:center; max-width:640px; margin:0 auto clamp(40px,6vw,68px)}
+.dossier__tag{display:inline-flex; align-items:center; gap:8px; margin:0 0 16px; font:700 11px/1 "Space Mono",monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--amber-2)}
+.dossier__tag .rec{width:8px; height:8px; border-radius:50%; background:#dc2f2f; box-shadow:0 0 0 0 rgba(220,47,47,.5); animation:pulse 1.6s ease-in-out infinite}
+.dossier__title{margin:0; font-family:"Anton",Impact,sans-serif; font-weight:400; text-transform:uppercase; line-height:.9;
+  font-size:clamp(44px,8vw,104px); letter-spacing:.01em; color:var(--ink)}
+.dossier__title span{color:transparent; -webkit-text-stroke:1.4px var(--amber-2)}
+.dossier__lead{margin:16px auto 0; max-width:44ch; font-size:clamp(13px,1.6vw,15px); line-height:1.6; color:var(--muted)}
+
+.dossier__body{display:grid; grid-template-columns:minmax(200px,1fr) minmax(320px,1.5fr) minmax(200px,1fr);
+  gap:clamp(20px,4vw,54px); align-items:center; max-width:1240px; margin:0 auto}
+
+/* field file */
+.file,.vitals{border:1px solid var(--line); border-radius:16px; padding:clamp(18px,2.4vw,26px); background:rgba(255,138,43,.02)}
+.file__head,.vitals__head{margin:0 0 16px; font:700 10px/1 "Space Mono",monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--amber-2)}
+.file__row{display:flex; align-items:baseline; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px dashed var(--line)}
+.file__row:last-child{border-bottom:0}
+.file__row span{font:700 10px/1 "Space Mono",monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.file__row b{font-size:13px; color:var(--ink)}
+.file__row b.redact{background:#2a1810; color:transparent; border-radius:3px; padding:0 8px; position:relative}
+.file__row b.redact::after{content:"REDACTED"; position:absolute; inset:0; display:grid; place-items:center; color:#5a4636; font-size:9px; letter-spacing:.1em}
+.file__row b.danger{color:#ff5a44}
+
+/* schematic */
+.schem{position:relative; aspect-ratio:3/4; max-height:74vh; display:grid; place-items:center}
+.schem__img{width:100%; height:100%; object-fit:contain; mix-blend-mode:screen; filter:drop-shadow(0 0 30px rgba(255,138,43,.25))}
+.schem__grid{position:absolute; inset:0; pointer-events:none; opacity:.35; mix-blend-mode:overlay;
+  background-image:linear-gradient(rgba(255,138,43,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(255,138,43,.14) 1px,transparent 1px); background-size:26px 26px}
+.schem__scan{position:absolute; left:0; right:0; top:0; height:2px; z-index:3; pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--amber-2),transparent); box-shadow:0 0 16px 3px rgba(255,138,43,.6);
+  animation:schemscan 4.5s linear infinite}
+@keyframes schemscan{0%{top:2%; opacity:0}10%{opacity:1}90%{opacity:1}100%{top:98%; opacity:0}}
+.schem__glow{position:absolute; inset:4% 8%; z-index:0; border-radius:50%; pointer-events:none;
+  background:radial-gradient(ellipse at center,rgba(255,138,43,.24),transparent 66%); filter:blur(26px);
+  animation:breathe 7s ease-in-out infinite}
+.schem__beam{position:absolute; top:2%; bottom:2%; left:6%; width:2px; z-index:3; pointer-events:none;
+  background:linear-gradient(transparent,var(--amber-2),transparent); box-shadow:0 0 18px 3px rgba(255,138,43,.5);
+  opacity:.6; animation:schembeam 6.5s ease-in-out infinite}
+@keyframes schembeam{0%,100%{left:6%}50%{left:92%}}
+.schem::after{content:""; position:absolute; inset:0; z-index:3; pointer-events:none; opacity:.4; mix-blend-mode:overlay;
+  background:repeating-linear-gradient(rgba(255,138,43,0) 0 3px,rgba(255,138,43,.08) 3px 4px)}
+.schem.is-empty{border:1px dashed var(--line); border-radius:16px}
+.schem__fallback{display:none; font:700 12px/1 "Space Mono",monospace; letter-spacing:.2em; color:var(--muted)}
+.schem.is-empty .schem__fallback{display:block}
+.schem.is-empty .schem__img,.schem.is-empty .schem__scan{display:none}
+
+/* annotations */
+.anno{position:absolute; left:var(--x); top:var(--y); z-index:4; width:0; height:0}
+.anno i{position:absolute; left:0; top:0; transform:translate(-50%,-50%); width:10px; height:10px; border-radius:50%;
+  background:var(--amber); box-shadow:0 0 0 4px rgba(255,138,43,.14),0 0 10px rgba(255,138,43,.7)}
+.anno::before{content:""; position:absolute; left:0; top:0; width:20px; height:1px; background:linear-gradient(90deg,var(--amber),transparent)}
+.anno b{position:absolute; left:26px; top:-10px; font:700 11px/1.2 "Space Mono",monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--amber-2); white-space:nowrap}
+.anno small{position:absolute; left:26px; top:6px; font-size:11px; color:var(--muted); white-space:nowrap}
+.anno--l::before{left:auto; right:0; background:linear-gradient(270deg,var(--amber),transparent)}
+.anno--l b,.anno--l small{left:auto; right:26px; text-align:right}
+/* interactive: hover the scan point to focus the part */
+.anno i{transition:transform .25s var(--ease),box-shadow .25s}
+.anno:hover i{transform:translate(-50%,-50%) scale(1.6); box-shadow:0 0 0 6px rgba(255,138,43,.16),0 0 18px rgba(255,138,43,.9)}
+.anno:hover b{color:#fff}
+.anno:hover::after{content:""; position:absolute; left:0; top:0; width:190px; height:190px; transform:translate(-50%,-50%);
+  border-radius:50%; background:radial-gradient(circle,rgba(255,170,90,.18),transparent 62%); pointer-events:none; z-index:-1}
+
+/* ---- containment terminal ---- */
+.termlog{max-width:1240px; margin:clamp(30px,4vw,50px) auto 0; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:rgba(10,6,5,.5)}
+.termlog__head{margin:0; padding:12px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:9px;
+  font:700 10px/1 "Space Mono",monospace; letter-spacing:.2em; text-transform:uppercase; color:var(--amber-2)}
+.termlog__dot{width:8px; height:8px; border-radius:50%; background:#dc2f2f; box-shadow:0 0 8px #dc2f2f; animation:pulse 1.5s ease-in-out infinite}
+.termlog__out{margin:0; padding:16px 18px; min-height:150px; font:400 12.5px/1.85 "Space Mono",monospace; color:#c6b8a8; white-space:pre-wrap; word-break:break-word}
+.termlog__out .ok{color:var(--amber-2)}
+.termlog__out .bad{color:#ff5a44; font-weight:700}
+.termlog__cur{display:inline-block; width:8px; height:14px; background:var(--amber-2); vertical-align:-2px; animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* vitals gauges */
+.gauge{margin-top:16px; display:grid; grid-template-columns:1fr auto; gap:4px 10px; align-items:center}
+.gauge span{font:700 10px/1 "Space Mono",monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.gauge b{font:700 13px/1 "Space Mono",monospace; color:var(--amber-2); grid-row:1; grid-column:2; text-align:right}
+.gauge i{grid-column:1 / -1; height:6px; border-radius:3px; background:rgba(255,138,43,.12); position:relative; overflow:hidden}
+.gauge i::after{content:""; position:absolute; inset:0 auto 0 0; width:var(--v); border-radius:3px;
+  background:linear-gradient(90deg,var(--ember),var(--amber-2)); transform:scaleX(var(--fill,0)); transform-origin:left; transition:transform 1.1s var(--ease)}
+.gauge.is-in i::after{--fill:1}
+.gauge--max b{color:#ff5a44}
+.gauge--max i::after{background:linear-gradient(90deg,#dc2f2f,#ff8a2b)}
+
+/* warning strip */
+.dossier__warn{max-width:1240px; margin:clamp(34px,5vw,54px) auto 0; display:flex; align-items:center; justify-content:center; gap:12px;
+  padding:14px 18px; border:1px solid rgba(220,47,47,.35); border-radius:12px; background:rgba(220,47,47,.06);
+  font:700 11px/1.4 "Space Mono",monospace; letter-spacing:.16em; text-transform:uppercase; color:#f0b6a6; text-align:center}
+.warn__i{flex:0 0 auto; width:20px; height:20px; display:grid; place-items:center; border-radius:50%; background:#dc2f2f; color:#fff; font-size:12px}
+
+/* ============================ RESPONSIVE ============================ */
+@media (max-width:900px){
+  .stage{min-height:auto; padding-bottom:40px}
+  .glow{top:44%; left:50%; width:130vw; height:130vw}
+  .hero{position:relative; top:auto; left:auto; transform:none; width:100%; height:min(58svh,460px); margin:clamp(90px,16vh,140px) auto 0}
+  .lede{position:relative; top:auto; left:auto; max-width:none; padding:clamp(22px,6vw,30px) var(--pad) 0; text-align:center}
+  .kicker{justify-content:center}
+  .tools{justify-content:center}
+  .title{font-size:clamp(60px,20vw,120px)}
+  .sub{margin-left:auto; margin-right:auto}
+  .specs{position:relative; right:auto; top:auto; transform:none; width:auto; margin:clamp(28px,7vw,40px) var(--pad) 0; text-align:left}
+  .spec dt{font-size:11px}
+  .card{position:relative; left:auto; bottom:auto; margin:clamp(26px,7vw,38px) var(--pad) 0; max-width:none}
+}
+@media (max-width:520px){
+  .card{flex-wrap:wrap}
+  .card__cta{margin-left:0; width:100%; text-align:center; margin-top:4px}
+}
+
+@media (max-width:900px){
+  .dossier__body{grid-template-columns:1fr; gap:26px}
+  .schem{order:-1; max-height:none; max-width:400px; margin:0 auto}
+  .file,.vitals{max-width:520px; margin:0 auto; width:100%}
+}
+@media (max-width:600px){
+  /* small schematic: keep the scan dots, drop the labels so nothing overflows */
+  .anno b,.anno small,.anno::before{display:none}
+}
+@media (hover:none){ .reticle{display:none} }  /* no cursor lens on touch */
+
+/* ---- reduced motion ---- */
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important}
+  .grain{display:none}
+}

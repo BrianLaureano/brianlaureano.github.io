@@ -18,6 +18,12 @@
       blurb:{en:'A luxury real-estate brand with scroll-driven scenes and property cards built to pull you in.',
              pt:'Uma marca imobiliária de luxo com cenas guiadas por scroll e cards de imóvel feitos pra te puxar pra dentro.'},
       tags:['Next.js','Luxury','GSAP','Scroll'] },
+    { n:'03', cat:{en:'Concept · Character',pt:'Conceito · Personagem'}, name:'Feral Edge',
+      live:'https://brianlaureano.github.io/feral-edge/',
+      shot:'assets/shots/feral-edge.jpg',
+      blurb:{en:'A cinematic character concept: a cursor-follow scanner x-rays the operative under his shell, with synth sound and a lab-dossier blueprint on scroll.',
+             pt:'Um conceito de personagem cinematográfico: um scanner que segue o cursor faz raio-x do operativo sob a casca, com som sintetizado e um blueprint de dossiê ao rolar.'},
+      tags:['GSAP','Web Audio','Interactive','Concept'] },
   ];
 
   /* ---------- serviços 01-05 ---------- */
