@@ -136,7 +136,7 @@
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
     tl.from('.bar', { y: -20, opacity: 0, duration: .7 })
       .from('.glow', { scale: .6, opacity: 0, duration: 1.4, ease: 'power2.out' }, '-=.4')
-      .from('.hero', { x: 60, opacity: 0, duration: 1.2, ease: 'power3.out' }, '-=1.1')
+      .from('.hero', { opacity: 0, duration: 1.2, ease: 'power3.out' }, '-=1.1')
       .from('.kicker', { y: 16, opacity: 0, duration: .7 }, '-=.7')
       .from('.title__l', { yPercent: 115, opacity: 0, duration: 1, stagger: .12 }, '-=.5')
       .from('.sub, .tools, .hint', { y: 18, opacity: 0, duration: .8, stagger: .1 }, '-=.6')
