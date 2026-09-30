@@ -1,6 +1,7 @@
 /* ============ Brian Laureano - Portfolio · "3D creator" clone ============ */
 (function () {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canHover = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
   const { gsap } = window;
   gsap.registerPlugin(window.ScrollTrigger);
 
@@ -8,19 +9,19 @@
   const GH='https://github.com/BrianLaureano/brianlaureano.github.io/tree/main/';
   const PROJECTS = [
     { n:'01', cat:{en:'Data · Real-time Ops',pt:'Dados · Operação em Tempo Real'}, name:{en:'Real-time Operations Panel',pt:'Painel Operacional em Tempo Real'},
-      live:'', shot:'assets/shots/painel.jpg',
+      live:'', shot:'assets/shots/painel.png',
       blurb:{en:'A web app operators used to track events live. Built end to end: daily .xlsx ingestion, category-based alert logic, KPIs comparing results vs. historical average, real-time sync and an admin panel with audit and export. Structured a historical base of 75k+ records from 130 weekly sheets (2.5 years of data). Works offline (PWA).',
              pt:'App web que operadores usavam para acompanhar eventos ao vivo. Construído de ponta a ponta: ingestão de planilhas .xlsx diárias, lógica de alertas por categoria, KPIs comparando resultado vs. média histórica, sincronização em tempo real e painel admin com auditoria e exportação. Estruturei uma base histórica de +75 mil registros a partir de 130 planilhas semanais (2,5 anos de dados). Funciona offline (PWA).'},
       tags:['JavaScript','Firebase','SheetJS','PWA'] },
     { n:'02', cat:{en:'Data · Analytics Dashboard',pt:'Dados · Dashboard de Analytics'}, name:{en:'Nebula Analytics Dashboard',pt:'Dashboard de Analytics'},
       live:'https://brianlaureano.github.io/dashboard-nebula/', repo:GH+'dashboard-nebula',
-      shot:'assets/shots/dashboard.jpg',
+      shot:'assets/shots/dashboard-nebula.png',
       blurb:{en:'A dark-themed interactive analytics dashboard with live charts, KPIs and forecasting across multiple views. Every metric recalculates on its own as new data comes in, processed right in the browser.',
              pt:'Dashboard de analytics interativo (tema dark) com gráficos ao vivo, KPIs e previsão em várias visões. Cada métrica se recalcula sozinha conforme novos dados chegam, com processamento no próprio navegador.'},
       tags:['JavaScript','Chart.js','KPIs','Analytics'] },
     { n:'03', cat:{en:'Data · Internal Tool / CRM',pt:'Dados · Ferramenta Interna / CRM'}, name:{en:'Helm — Admin & CRM Panel',pt:'Helm — Painel Admin & CRM'},
       live:'https://brianlaureano.github.io/admin-helm/', repo:GH+'admin-helm',
-      shot:'assets/shots/admin-helm.jpg',
+      shot:'assets/shots/admin-helm.png',
       blurb:{en:'An internal admin/CRM panel: records management, roles, filters, tables and a clean data-dense UI — the kind of internal software a team actually runs the operation on.',
              pt:'Painel admin/CRM interno: gestão de registros, permissões, filtros, tabelas e uma UI limpa e densa em dados — o tipo de software interno em que um time realmente toca a operação.'},
       tags:['JavaScript','CRM','Tables','Roles'] },
@@ -38,13 +39,13 @@
       tags:['Next.js','Luxury','GSAP','Scroll'] },
     { n:'06', cat:{en:'E-commerce · Store',pt:'E-commerce · Loja'}, name:{en:'Lumen Store',pt:'Lumen Store'},
       live:'https://brianlaureano.github.io/shop-lumen/', repo:GH+'shop-lumen',
-      shot:'assets/shots/shop-lumen.jpg',
+      shot:'assets/shots/shop-lumen.png',
       blurb:{en:'A modern e-commerce storefront: product grid, cart flow and a checkout-ready layout with crisp, conversion-focused UI.',
              pt:'Uma loja e-commerce moderna: grade de produtos, fluxo de carrinho e layout pronto pra checkout, com UI nítida e focada em conversão.'},
       tags:['JavaScript','E-commerce','Cart','UI'] },
     { n:'07', cat:{en:'SaaS · Landing Page',pt:'SaaS · Landing Page'}, name:{en:'Flowbase',pt:'Flowbase'},
       live:'https://brianlaureano.github.io/landing-flowbase/', repo:GH+'landing-flowbase',
-      shot:'assets/shots/landing-flowbase.jpg',
+      shot:'assets/shots/landing-flowbase.png',
       blurb:{en:'A conversion-focused SaaS product landing page: clear value prop, feature sections, pricing and strong calls to action with real scroll motion.',
              pt:'Landing page de produto SaaS focada em conversão: proposta de valor clara, seções de features, pricing e CTAs fortes com motion de scroll de verdade.'},
       tags:['Landing','SaaS','Conversion','GSAP'] },
@@ -96,6 +97,7 @@
     live:{en:'Live project ↗',pt:'Ver ao vivo ↗'}, soon:{en:'Coming soon',pt:'Em breve'},
     code:{en:'Code ↗',pt:'Código ↗'}, caseLabel:{en:'Case study',pt:'Estudo de caso'},
     explore:{en:'Hover to tour · click to open',pt:'Passe o mouse pra explorar · clique pra abrir'},
+    tapOpen:{en:'Tap to open ↗',pt:'Toque para abrir ↗'},
   };
   let LANG=(navigator.language||'').toLowerCase().startsWith('pt')?'pt':'en';
   try{const s=sessionStorage.getItem('bl-lang'); if(s==='pt'||s==='en')LANG=s;}catch(e){}
@@ -142,7 +144,7 @@
           <div class="proj__viewport">
             <div class="proj__scaler"><iframe title="${nm}" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin allow-popups"></iframe></div>
             <img class="proj__poster" src="${p.shot}" alt="${nm}" loading="lazy" onerror="this.style.display='none'"/>
-            ${hasLive?`<a class="proj__cue" href="${p.live}" target="_blank" rel="noopener"><span class="proj__spin"></span><b data-pcue>${t('explore')}</b></a>`:''}
+            ${hasLive?`<a class="proj__cue" href="${p.live}" target="_blank" rel="noopener"><span class="proj__spin"></span><b data-pcue>${t(canHover?'explore':'tapOpen')}</b></a>`:''}
           </div>
         </div>`;
       art._data=p; projWrap.appendChild(art);
@@ -190,7 +192,7 @@
     document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[k])el.innerHTML=I18N[k][l];});
     document.querySelectorAll('.lang-toggle [data-lang]').forEach(s=>s.classList.toggle('is-active', s.dataset.lang===l));
     document.querySelectorAll('.svc-item').forEach(li=>{if(li._data){li.querySelector('[data-stitle]').textContent=li._data.t[l]; li.querySelector('[data-sdesc]').textContent=li._data.d[l];}});
-    document.querySelectorAll('.proj').forEach(a=>{if(a._data){a.querySelector('[data-pcat]').textContent=a._data.cat[l]; const nmEl=a.querySelector('[data-pname]'); if(nmEl)nmEl.textContent=(typeof a._data.name==='string'?a._data.name:(a._data.name[l]||a._data.name.en)); const bl=a.querySelector('[data-pblurb]'); if(bl)bl.textContent=a._data.blurb[l]; const lv=a.querySelector('[data-plive]'); if(lv)lv.textContent=t('live'); const sn=a.querySelector('[data-psoon]'); if(sn)sn.textContent=t('caseLabel'); const cd=a.querySelector('[data-pcode]'); if(cd)cd.textContent=t('code'); const cu=a.querySelector('[data-pcue]'); if(cu)cu.textContent=t('explore');}});
+    document.querySelectorAll('.proj').forEach(a=>{if(a._data){a.querySelector('[data-pcat]').textContent=a._data.cat[l]; const nmEl=a.querySelector('[data-pname]'); if(nmEl)nmEl.textContent=(typeof a._data.name==='string'?a._data.name:(a._data.name[l]||a._data.name.en)); const bl=a.querySelector('[data-pblurb]'); if(bl)bl.textContent=a._data.blurb[l]; const lv=a.querySelector('[data-plive]'); if(lv)lv.textContent=t('live'); const sn=a.querySelector('[data-psoon]'); if(sn)sn.textContent=t('caseLabel'); const cd=a.querySelector('[data-pcode]'); if(cd)cd.textContent=t('code'); const cu=a.querySelector('[data-pcue]'); if(cu)cu.textContent=t(canHover?'explore':'tapOpen');}});
   }
   applyLang(LANG);
   const langBtn=document.querySelector('.lang-toggle');

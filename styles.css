@@ -39,7 +39,7 @@ img{max-width:100%; display:block}
   background:linear-gradient(180deg,#ffffff 0%,#e6e8ef 16%,#a9adba 34%,#5c6070 50%,#1f2129 56%,#6a6e7e 66%,#c6c9d3 84%,#ffffff 100%);
   -webkit-background-clip:text; background-clip:text; color:transparent;
   -webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 2px 0 rgba(0,0,0,.55)) drop-shadow(0 14px 34px rgba(0,0,0,.6));
+  text-shadow:0 2px 0 rgba(0,0,0,.45), 0 14px 34px rgba(0,0,0,.55);
 }
 
 /* ---------- film grain + ambient aura ---------- */
@@ -109,8 +109,10 @@ section[id]{scroll-margin-top:88px}                  /* keep anchors clear of fi
 .lang-toggle [data-lang]{transition:color .2s}
 .lang-toggle [data-lang].is-active{color:#fff}
 @media (max-width:640px){
-  .topnav__links{gap:16px; font-size:11px}
-  .topnav__home,.lang-toggle{display:none}
+  .topnav{padding-left:14px; padding-right:14px; gap:8px}
+  .topnav__links{margin:0 auto 0 0; gap:14px; font-size:10px; letter-spacing:.09em}
+  .topnav__home{display:none}
+  .lang-toggle{padding:6px 9px; font-size:10px; letter-spacing:.06em}
 }
 
 /* ---------- glossy pill button ---------- */
@@ -171,7 +173,14 @@ section[id]{scroll-margin-top:88px}                  /* keep anchors clear of fi
   filter:drop-shadow(0 8px 18px rgba(0,0,0,.55)); opacity:.9;
 }
 @media (max-width:640px){
-  .hero__tag{font-size:10px; bottom:96px}
+  /* stack title -> avatar so the name is always visible (no overlap) */
+  .hero{justify-content:flex-start; padding-top:104px; padding-bottom:150px}
+  .hero__title{font-size:clamp(64px,20vw,120px); order:1;
+    background:none; -webkit-background-clip:border-box; background-clip:border-box;
+    color:#eef0f5; -webkit-text-fill-color:#eef0f5;
+    text-shadow:0 2px 10px rgba(0,0,0,.5), 0 12px 30px rgba(0,0,0,.4)}
+  .hero__avatar{position:static; transform:none; order:2; width:min(64vw,280px); margin:14px auto 0; pointer-events:auto}
+  .hero__tag{font-size:10px; bottom:92px}
   .hero__cta{left:50%; right:auto; transform:translateX(-50%); bottom:34px}
   .hero__gem{display:none}
 }
