@@ -270,6 +270,9 @@ section[id]{scroll-margin-top:88px}                  /* keep anchors clear of fi
   transition:transform .3s var(--ease),box-shadow .3s}
 .proj__cta:hover{transform:translateY(-3px); box-shadow:0 18px 40px -10px rgba(165,61,246,.8), inset 0 1px 0 rgba(255,255,255,.5)}
 .proj__cta.is-soon{background:none; border:1px solid var(--line); color:var(--muted); box-shadow:none; pointer-events:none; opacity:.6}
+.proj__ctas{display:flex; flex-wrap:wrap; gap:12px; align-items:center}
+.proj__cta--ghost{background:none; color:#fff; border:1px solid var(--line); box-shadow:none}
+.proj__cta--ghost:hover{border-color:transparent; background:rgba(255,255,255,.06); box-shadow:none; transform:translateY(-3px)}
 
 /* live browser frame */
 .proj__frame{border-radius:16px; overflow:hidden; border:1px solid var(--line); background:#0b0b0e;

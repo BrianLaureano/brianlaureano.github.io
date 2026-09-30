@@ -5,21 +5,51 @@
   gsap.registerPlugin(window.ScrollTrigger);
 
   /* ---------- projetos (link ao vivo real; sem embed) ---------- */
+  const GH='https://github.com/BrianLaureano/brianlaureano.github.io/tree/main/';
   const PROJECTS = [
-    { n:'01', cat:{en:'Editorial · Café',pt:'Editorial · Cafeteria'}, name:'Café Aurora',
-      live:'https://brianlaureano.github.io/cafe-aurora/',
+    { n:'01', cat:{en:'Data · Real-time Ops',pt:'Dados · Operação em Tempo Real'}, name:{en:'Real-time Operations Panel',pt:'Painel Operacional em Tempo Real'},
+      live:'', shot:'assets/shots/painel.jpg',
+      blurb:{en:'A web app operators used to track events live. Built end to end: daily .xlsx ingestion, category-based alert logic, KPIs comparing results vs. historical average, real-time sync and an admin panel with audit and export. Structured a historical base of 75k+ records from 130 weekly sheets (2.5 years of data). Works offline (PWA).',
+             pt:'App web que operadores usavam para acompanhar eventos ao vivo. Construído de ponta a ponta: ingestão de planilhas .xlsx diárias, lógica de alertas por categoria, KPIs comparando resultado vs. média histórica, sincronização em tempo real e painel admin com auditoria e exportação. Estruturei uma base histórica de +75 mil registros a partir de 130 planilhas semanais (2,5 anos de dados). Funciona offline (PWA).'},
+      tags:['JavaScript','Firebase','SheetJS','PWA'] },
+    { n:'02', cat:{en:'Data · Analytics Dashboard',pt:'Dados · Dashboard de Analytics'}, name:{en:'Nebula Analytics Dashboard',pt:'Dashboard de Analytics'},
+      live:'https://brianlaureano.github.io/dashboard-nebula/', repo:GH+'dashboard-nebula',
+      shot:'assets/shots/dashboard.jpg',
+      blurb:{en:'A dark-themed interactive analytics dashboard with live charts, KPIs and forecasting across multiple views. Every metric recalculates on its own as new data comes in, processed right in the browser.',
+             pt:'Dashboard de analytics interativo (tema dark) com gráficos ao vivo, KPIs e previsão em várias visões. Cada métrica se recalcula sozinha conforme novos dados chegam, com processamento no próprio navegador.'},
+      tags:['JavaScript','Chart.js','KPIs','Analytics'] },
+    { n:'03', cat:{en:'Data · Internal Tool / CRM',pt:'Dados · Ferramenta Interna / CRM'}, name:{en:'Helm — Admin & CRM Panel',pt:'Helm — Painel Admin & CRM'},
+      live:'https://brianlaureano.github.io/admin-helm/', repo:GH+'admin-helm',
+      shot:'assets/shots/admin-helm.jpg',
+      blurb:{en:'An internal admin/CRM panel: records management, roles, filters, tables and a clean data-dense UI — the kind of internal software a team actually runs the operation on.',
+             pt:'Painel admin/CRM interno: gestão de registros, permissões, filtros, tabelas e uma UI limpa e densa em dados — o tipo de software interno em que um time realmente toca a operação.'},
+      tags:['JavaScript','CRM','Tables','Roles'] },
+    { n:'04', cat:{en:'Editorial · Café',pt:'Editorial · Cafeteria'}, name:{en:'Café Aurora',pt:'Café Aurora'},
+      live:'https://brianlaureano.github.io/cafe-aurora/', repo:GH+'cafe-aurora',
       shot:'assets/shots/cafe-aurora.jpg',
       blurb:{en:'A warm editorial site for a specialty coffee house. Real photography, a filterable menu, and motion that feels alive.',
              pt:'Um site editorial e acolhedor para uma cafeteria especial. Fotografia real, menu filtrável e movimento que parece vivo.'},
       tags:['Next.js','Editorial','Photography','Menu'] },
-    { n:'02', cat:{en:'Luxury · Real Estate',pt:'Luxo · Imobiliária'}, name:'Zenith Realty',
-      live:'https://brianlaureano.github.io/zenith/',
+    { n:'05', cat:{en:'Luxury · Real Estate',pt:'Luxo · Imobiliária'}, name:{en:'Zenith Realty',pt:'Zenith Realty'},
+      live:'https://brianlaureano.github.io/zenith/', repo:GH+'zenith',
       shot:'assets/shots/zenith.jpg',
       blurb:{en:'A luxury real-estate brand with scroll-driven scenes and property cards built to pull you in.',
              pt:'Uma marca imobiliária de luxo com cenas guiadas por scroll e cards de imóvel feitos pra te puxar pra dentro.'},
       tags:['Next.js','Luxury','GSAP','Scroll'] },
-    { n:'03', cat:{en:'Concept · Character',pt:'Conceito · Personagem'}, name:'Feral Edge',
-      live:'https://brianlaureano.github.io/feral-edge/',
+    { n:'06', cat:{en:'E-commerce · Store',pt:'E-commerce · Loja'}, name:{en:'Lumen Store',pt:'Lumen Store'},
+      live:'https://brianlaureano.github.io/shop-lumen/', repo:GH+'shop-lumen',
+      shot:'assets/shots/shop-lumen.jpg',
+      blurb:{en:'A modern e-commerce storefront: product grid, cart flow and a checkout-ready layout with crisp, conversion-focused UI.',
+             pt:'Uma loja e-commerce moderna: grade de produtos, fluxo de carrinho e layout pronto pra checkout, com UI nítida e focada em conversão.'},
+      tags:['JavaScript','E-commerce','Cart','UI'] },
+    { n:'07', cat:{en:'SaaS · Landing Page',pt:'SaaS · Landing Page'}, name:{en:'Flowbase',pt:'Flowbase'},
+      live:'https://brianlaureano.github.io/landing-flowbase/', repo:GH+'landing-flowbase',
+      shot:'assets/shots/landing-flowbase.jpg',
+      blurb:{en:'A conversion-focused SaaS product landing page: clear value prop, feature sections, pricing and strong calls to action with real scroll motion.',
+             pt:'Landing page de produto SaaS focada em conversão: proposta de valor clara, seções de features, pricing e CTAs fortes com motion de scroll de verdade.'},
+      tags:['Landing','SaaS','Conversion','GSAP'] },
+    { n:'08', cat:{en:'Concept · Character',pt:'Conceito · Personagem'}, name:{en:'Feral Edge',pt:'Feral Edge'},
+      live:'https://brianlaureano.github.io/feral-edge/', repo:GH+'feral-edge',
       shot:'assets/shots/feral-edge.jpg',
       blurb:{en:'A cinematic character concept: a cursor-follow scanner x-rays the operative under his shell, with synth sound and a lab-dossier blueprint on scroll.',
              pt:'Um conceito de personagem cinematográfico: um scanner que segue o cursor faz raio-x do operativo sob a casca, com som sintetizado e um blueprint de dossiê ao rolar.'},
@@ -28,18 +58,18 @@
 
   /* ---------- serviços 01-05 ---------- */
   const SERVICES = [
-    { n:'01', t:{en:'Web Design',pt:'Web Design'},
-      d:{en:'Clean, modern, conversion-focused websites with attention to layout, typography and user experience.',
-         pt:'Sites limpos, modernos e focados em conversão, com atenção a layout, tipografia e experiência do usuário.'} },
-    { n:'02', t:{en:'Animated Landing Pages',pt:'Landing Pages Animadas'},
-      d:{en:'High-converting, scroll-driven pages with real motion, built with Next.js, GSAP and Lenis. Made to make visitors act, not just look.',
-         pt:'Páginas que convertem, guiadas por scroll e com motion de verdade, feitas com Next.js, GSAP e Lenis. Pra fazer o visitante agir, não só olhar.'} },
-    { n:'03', t:{en:'Custom Dashboards',pt:'Dashboards Sob Medida'},
+    { n:'01', t:{en:'Custom Dashboards & BI',pt:'Dashboards & BI Sob Medida'},
       d:{en:'Real-time dashboards and internal tools with live charts, KPIs, roles and secure data. The software that actually runs the operation.',
          pt:'Dashboards em tempo real e ferramentas internas com gráficos ao vivo, KPIs, permissões e dados seguros. O software que realmente toca a operação.'} },
-    { n:'04', t:{en:'Spreadsheets → Web Apps',pt:'Planilhas → Web Apps'},
+    { n:'02', t:{en:'Spreadsheets → Web Apps',pt:'Planilhas → Web Apps'},
       d:{en:'Your data is trapped in Sheets. I turn those tabs and formulas into a fast, secure web app your whole team enjoys using.',
          pt:'Seus dados estão presos em planilhas. Eu transformo aquelas abas e fórmulas num app web rápido e seguro que o time inteiro gosta de usar.'} },
+    { n:'03', t:{en:'Data Automation',pt:'Automação de Dados'},
+      d:{en:'Manual, repetitive reporting turned into automated pipelines: daily file ingestion, validation and KPIs that recalculate on their own.',
+         pt:'Relatórios manuais e repetitivos viram pipelines automáticos: ingestão diária de arquivos, validação e KPIs que se recalculam sozinhos.'} },
+    { n:'04', t:{en:'Web Design & Landing Pages',pt:'Web Design & Landing Pages'},
+      d:{en:'Clean, modern, conversion-focused pages with real scroll-driven motion, built with Next.js, GSAP and Lenis.',
+         pt:'Páginas limpas, modernas e focadas em conversão, com motion de verdade guiado por scroll, feitas com Next.js, GSAP e Lenis.'} },
     { n:'05', t:{en:'Motion & Brand',pt:'Motion & Marca'},
       d:{en:'Cinematic front-end, brand systems and micro-interactions that give a product a memorable, unmistakable presence.',
          pt:'Front-end cinematográfico, sistemas de marca e micro-interações que dão ao produto uma presença memorável e inconfundível.'} },
@@ -50,23 +80,24 @@
     navAbout:{en:'About',pt:'Sobre'}, navServices:{en:'Services',pt:'Serviços'},
     navProjects:{en:'Projects',pt:'Projetos'}, navContact:{en:'Contact',pt:'Contato'},
     cta:{en:'Contact me',pt:'Fale comigo'}, scroll:{en:'Scroll',pt:'Role'},
-    heroTag:{en:'A CREATIVE DEVELOPER DRIVEN BY<br>CRAFTING STRIKING AND<br>UNFORGETTABLE PROJECTS',
-             pt:'UM DESENVOLVEDOR CRIATIVO MOVIDO A<br>CRIAR PROJETOS MARCANTES E<br>INESQUECÍVEIS'},
-    aboutText:{en:"With more than five years turning ideas into fast, cinematic websites, I focus on web design, dashboards and brand experiences. I love working with businesses that want to stand out and show their best image. Let's build something great together.",
-               pt:'Com mais de cinco anos transformando ideias em sites rápidos e cinematográficos, foco em web design, dashboards e experiências de marca. Gosto de verdade de trabalhar com negócios que querem se destacar e mostrar sua melhor imagem. Vamos construir algo incrível juntos.'},
+    heroTag:{en:'A DATA & INTERNAL-TOOLS DEVELOPER<br>TURNING RAW DATA INTO<br>DECISIONS THE TEAM CAN USE',
+             pt:'DESENVOLVEDOR DE DADOS E<br>FERRAMENTAS INTERNAS QUE TRANSFORMAM<br>DADO BRUTO EM DECISÃO'},
+    aboutText:{en:"I build data tools end to end: real-time dashboards, process automation and internal apps — from the data model to the interface the team uses every day. I work with SQL, Power BI, JavaScript and Firebase, always turning raw data into decisions. Background in Administration, plus an MBA in progress — business sense with hands-on code.",
+               pt:'Construo ferramentas de dados de ponta a ponta: dashboards em tempo real, automação de processos e apps internos — do modelo de dados à interface que a equipe usa todo dia. Trabalho com SQL, Power BI, JavaScript e Firebase, sempre transformando dado bruto em decisão. Formado em Administração, com MBA em andamento — visão de negócio com mão na massa técnica.'},
     svcTitle:{en:'SERVICES',pt:'SERVIÇOS'},
-    stat1:{en:'Years crafting the web',pt:'Anos criando na web'},
+    stat1:{en:'Records processed',pt:'Registros processados'},
     stat2:{en:'Projects shipped',pt:'Projetos entregues'},
     stat3:{en:'Design + code, one person',pt:'Design + código, uma pessoa'},
     stat4:{en:'Reply time',pt:'Tempo de resposta'},
-    contactEyebrow:{en:'Available for freelance & contract',pt:'Disponível para freelance & contrato'},
+    contactEyebrow:{en:'Open to CLT/PJ roles · Data & Internal Tools · Sorocaba & remote',pt:'Aberto a vagas CLT/PJ · Dados & Ferramentas Internas · Sorocaba e remoto'},
     contactNote:{en:'Got a project in mind? I design the story and write the code, start to finish, on my own.',
                  pt:'Tem um projeto em mente? Eu desenho a história e escrevo o código, do início ao fim, sozinho.'},
     footer:{en:'Designed & coded, one person.',pt:'Desenhado & codado, uma pessoa só.'},
     live:{en:'Live project ↗',pt:'Ver ao vivo ↗'}, soon:{en:'Coming soon',pt:'Em breve'},
+    code:{en:'Code ↗',pt:'Código ↗'}, caseLabel:{en:'Case study',pt:'Estudo de caso'},
     explore:{en:'Hover to tour · click to open',pt:'Passe o mouse pra explorar · clique pra abrir'},
   };
-  let LANG='en';
+  let LANG=(navigator.language||'').toLowerCase().startsWith('pt')?'pt':'en';
   try{const s=sessionStorage.getItem('bl-lang'); if(s==='pt'||s==='en')LANG=s;}catch(e){}
   const t=(k)=>I18N[k]?I18N[k][LANG]:k;
 
@@ -85,8 +116,10 @@
   /* ---------- render: projects ---------- */
   const projWrap=document.querySelector('[data-projects]');
   if(projWrap){
+    const pname=(p)=> typeof p.name==='string' ? p.name : (p.name[LANG]||p.name.en);
     PROJECTS.forEach(p=>{
       const hasLive=!!p.live;
+      const nm=pname(p);
       const host=(p.live||'').replace(/^https?:\/\//,'').replace(/\/$/,'');
       const art=document.createElement('article');
       art.className='proj';
@@ -94,18 +127,21 @@
         <div class="proj__info">
           <span class="proj__n">${p.n}</span>
           <span class="proj__cat" data-pcat>${p.cat[LANG]}</span>
-          <h3 class="proj__name">${p.name}</h3>
+          <h3 class="proj__name" data-pname>${nm}</h3>
           <p class="proj__blurb" data-pblurb>${p.blurb[LANG]}</p>
           <div class="proj__tags">${p.tags.map(x=>`<span>${x}</span>`).join('')}</div>
-          ${hasLive
-            ? `<a class="proj__cta" href="${p.live}" target="_blank" rel="noopener" data-plive>${t('live')}</a>`
-            : `<span class="proj__cta is-soon" data-psoon>${t('soon')}</span>`}
+          <div class="proj__ctas">
+            ${hasLive
+              ? `<a class="proj__cta" href="${p.live}" target="_blank" rel="noopener" data-plive>${t('live')}</a>`
+              : `<span class="proj__cta is-soon" data-psoon>${t('caseLabel')}</span>`}
+            ${p.repo?`<a class="proj__cta proj__cta--ghost" href="${p.repo}" target="_blank" rel="noopener" data-pcode>${t('code')}</a>`:''}
+          </div>
         </div>
         <div class="proj__frame" ${hasLive?`data-frame data-src="${p.live}"`:''}>
           <div class="proj__bar" aria-hidden="true"><i></i><i></i><i></i><span>${host||'coming soon'}</span></div>
           <div class="proj__viewport">
-            <div class="proj__scaler"><iframe title="${p.name}" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin allow-popups"></iframe></div>
-            <img class="proj__poster" src="${p.shot}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'"/>
+            <div class="proj__scaler"><iframe title="${nm}" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin allow-popups"></iframe></div>
+            <img class="proj__poster" src="${p.shot}" alt="${nm}" loading="lazy" onerror="this.style.display='none'"/>
             ${hasLive?`<a class="proj__cue" href="${p.live}" target="_blank" rel="noopener"><span class="proj__spin"></span><b data-pcue>${t('explore')}</b></a>`:''}
           </div>
         </div>`;
@@ -154,7 +190,7 @@
     document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(I18N[k])el.innerHTML=I18N[k][l];});
     document.querySelectorAll('.lang-toggle [data-lang]').forEach(s=>s.classList.toggle('is-active', s.dataset.lang===l));
     document.querySelectorAll('.svc-item').forEach(li=>{if(li._data){li.querySelector('[data-stitle]').textContent=li._data.t[l]; li.querySelector('[data-sdesc]').textContent=li._data.d[l];}});
-    document.querySelectorAll('.proj').forEach(a=>{if(a._data){a.querySelector('[data-pcat]').textContent=a._data.cat[l]; const bl=a.querySelector('[data-pblurb]'); if(bl)bl.textContent=a._data.blurb[l]; const lv=a.querySelector('[data-plive]'); if(lv)lv.textContent=t('live'); const sn=a.querySelector('[data-psoon]'); if(sn)sn.textContent=t('soon'); const cu=a.querySelector('[data-pcue]'); if(cu)cu.textContent=t('explore');}});
+    document.querySelectorAll('.proj').forEach(a=>{if(a._data){a.querySelector('[data-pcat]').textContent=a._data.cat[l]; const nmEl=a.querySelector('[data-pname]'); if(nmEl)nmEl.textContent=(typeof a._data.name==='string'?a._data.name:(a._data.name[l]||a._data.name.en)); const bl=a.querySelector('[data-pblurb]'); if(bl)bl.textContent=a._data.blurb[l]; const lv=a.querySelector('[data-plive]'); if(lv)lv.textContent=t('live'); const sn=a.querySelector('[data-psoon]'); if(sn)sn.textContent=t('caseLabel'); const cd=a.querySelector('[data-pcode]'); if(cd)cd.textContent=t('code'); const cu=a.querySelector('[data-pcue]'); if(cu)cu.textContent=t('explore');}});
   }
   applyLang(LANG);
   const langBtn=document.querySelector('.lang-toggle');
