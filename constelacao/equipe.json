@@ -1,0 +1,77 @@
+{
+  "_como_editar": "Este arquivo alimenta o organograma. Para adicionar alguém: copie uma linha de 'people' e ajuste dept/name/role/level. 'level' aceita: CEO, Diretor, Coordenador, Analista, Assistente. 'lead' é o índice (começando em 0) do gestor direto DENTRO do mesmo departamento; omita para reportar ao CEO mais próximo. 'nick' (apelido), 'vacant' (vaga em aberto) e 'photo' (ex.: 'fotos/brian.jpg' — suba a imagem na pasta fotos/) são opcionais. Em 'departments', 'anchor' é a posição do aglomerado no naipe (x de -1.13 a 1.13, y de -1.38 a 1.0) e 'radius' o tamanho do aglomerado.",
+
+  "_demo": "DADOS FICTÍCIOS — esta é uma demonstração pública de portfólio. Nomes, empresa e domínio são inventados; nenhuma pessoa ou organização real é representada.",
+
+  "_verticais": "Por pessoa: \"vertical\": [\"Poker\"] ou [\"SX\"] ou [\"Poker\",\"Bet\"] — em quais verticais da Vértice Gaming (Poker ♠, SX ♦, Bet ♣) a pessoa atua. Sem o campo = atua em todas. O nav do site filtra por vertical e mostra badges nos cards.",
+
+  "_contato": "Opcional por pessoa: \"email\" (e-mail corporativo) e \"teams\" (link de chat do Teams). Sem esses campos, o site gera automaticamente primeiro.ultimo@dominio_email e o link de chat do Teams a partir do e-mail.",
+  "dominio_email": "exemplo.com",
+
+  "_fonte_remota": "Cole aqui a URL de uma planilha Google (abas Pessoas/Areas — veja GUIA-RH.md) OU a URL /exec de um Apps Script. Deixe \"\" para usar só este arquivo.",
+  "fonte_remota": "",
+
+  "departments": [
+    { "key": "Executivo",   "color": "#ffe9b8", "anchor": [0.0, 0.68],   "radius": 0.15 },
+    { "key": "Produtos",    "color": "#ffd27a", "anchor": [-0.55, -0.42], "radius": 0.32 },
+    { "key": "Security",    "color": "#7fa4ff", "anchor": [0.50, 0.05],  "radius": 0.20 },
+    { "key": "Comercial",   "color": "#f5a05a", "anchor": [-0.50, 0.05], "radius": 0.19 },
+    { "key": "Marketing",   "color": "#c39be0", "anchor": [0.58, -0.48], "radius": 0.26 },
+    { "key": "RH",          "color": "#8fd6a8", "anchor": [0.0, 0.30],   "radius": 0.14 },
+    { "key": "Atendimento", "color": "#7fd6d0", "anchor": [0.0, -0.18],  "radius": 0.20 },
+    { "key": "Compliance",  "color": "#e89aa4", "anchor": [0.0, -1.00],  "radius": 0.13 }
+  ],
+
+  "people": [
+    { "dept": "Executivo", "name": "Henrique Vilella", "role": "CEO", "level": "CEO", "vertical": ["Poker"] },
+    { "dept": "Executivo", "name": "Rodrigo Nunes", "nick": "Digo", "role": "CEO", "level": "CEO", "vertical": ["Poker"] },
+    { "dept": "Executivo", "name": "Eduardo Bastos", "role": "CEO", "level": "CEO", "vertical": ["Poker"] },
+    { "dept": "Executivo", "name": "Leandro Araújo", "role": "CEO SX", "level": "CEO", "vertical": ["SX"] },
+    { "dept": "Executivo", "name": "Fernando Okabe", "role": "Diretor SX", "level": "Diretor", "lead": 3, "vertical": ["SX"] },
+
+    { "dept": "Produtos", "name": "Bruno Salvetti", "nick": "Salva", "role": "Coordenador de Produtos", "level": "Coordenador", "vertical": ["Poker"] },
+    { "dept": "Produtos", "name": "Felipe Moraes", "role": "Analista de Produtos", "level": "Analista", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Produtos", "name": "Brian Laureano", "role": "Assistente de Produtos", "level": "Assistente", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Produtos", "name": "Carla Moura", "role": "Assistente de Produtos", "level": "Assistente", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Produtos", "name": "Mateus Rangel", "role": "Assistente de Produtos", "level": "Assistente", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Produtos", "name": "Isadora Quintana", "role": "Assistente de Produtos", "level": "Assistente", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Produtos", "name": "Tânia Cordeiro", "role": "Assistente de Produtos", "level": "Assistente", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Produtos", "name": "Gabriela Risso", "role": "Assistente de Produtos", "level": "Assistente", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Produtos", "name": "Lívia Franco", "role": "Assistente de Produtos", "level": "Assistente", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Produtos", "name": "Vitória Peçanha", "role": "Assistente de Produtos", "level": "Assistente", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Produtos", "name": "Tainá Marques", "role": "Assistente de Produtos", "level": "Assistente", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Produtos", "name": "Gabriel Castro", "role": "Assistente de Produtos", "level": "Assistente", "lead": 0, "vertical": ["Poker"] },
+
+    { "dept": "Security", "name": "Frederico Mattar", "nick": "Fred", "role": "Coordenador de Security", "level": "Coordenador", "vertical": ["Poker"] },
+    { "dept": "Security", "name": "Douglas Freitas", "role": "Analista de Dados Security", "level": "Analista", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Security", "name": "Jonas Wollf", "role": "Analista de Security", "level": "Analista", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Security", "name": "Bruno Paredes", "nick": "Zang", "role": "Analista de Security", "level": "Analista", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Security", "name": "Carlos Henrique", "role": "Analista de Security", "level": "Analista", "lead": 0, "vertical": ["Poker"] },
+
+    { "dept": "Comercial", "name": "Marcelo Assunção", "role": "Coordenador Comercial", "level": "Coordenador", "vertical": ["Poker"] },
+    { "dept": "Comercial", "name": "Wesley Alvarenga", "role": "Analista de Dados Comercial", "level": "Analista", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Comercial", "name": "Karina Lemos", "role": "Analista Comercial", "level": "Analista", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Comercial", "name": "Thales Lira", "role": "Assistente Comercial", "level": "Assistente", "lead": 0, "vertical": ["Poker"] },
+
+    { "dept": "Marketing", "name": "Juliana Gouveia", "role": "Diretora de Criação", "level": "Diretor", "vertical": ["Poker"] },
+    { "dept": "Marketing", "name": "Rafaela Cordeiro", "role": "Coordenadora de Marketing", "level": "Coordenador", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Marketing", "name": "Débora Bruni", "role": "Analista de Marketing", "level": "Analista", "lead": 1, "vertical": ["Poker"] },
+    { "dept": "Marketing", "name": "Cristiano Brasil", "role": "Designer Gráfico", "level": "Analista", "lead": 1, "vertical": ["Poker"] },
+    { "dept": "Marketing", "name": "Gustavo Garbelini", "role": "Designer Pleno", "level": "Analista", "lead": 1, "vertical": ["Poker"] },
+    { "dept": "Marketing", "name": "Carolina Montel", "role": "Redatora", "level": "Analista", "lead": 1, "vertical": ["Poker"] },
+    { "dept": "Marketing", "name": "Raíssa Rangel", "role": "Social Media", "level": "Analista", "lead": 1, "vertical": ["Poker"] },
+
+    { "dept": "RH", "name": "Marcos Antunes", "role": "Coordenador de RH", "level": "Coordenador", "vertical": ["Poker"] },
+    { "dept": "RH", "name": "Daniela Serra", "role": "Analista de RH", "level": "Analista", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "RH", "name": "Karine Toledo", "role": "Assistente de RH", "level": "Assistente", "lead": 0, "vertical": ["Poker"] },
+
+    { "dept": "Atendimento", "name": "Roberto Pedrosa", "role": "Coordenador de Atendimento", "level": "Coordenador", "vertical": ["Poker"] },
+    { "dept": "Atendimento", "name": "Letícia Nunes", "role": "Líder de Atendimento", "level": "Analista", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Atendimento", "name": "Fábio Bernardi", "role": "Líder de Atendimento", "level": "Analista", "lead": 0, "vertical": ["Poker"] },
+    { "dept": "Atendimento", "name": "Marina Clara", "role": "Assistente de Atendimento", "level": "Assistente", "lead": 1, "vertical": ["Poker"] },
+    { "dept": "Atendimento", "name": "Júlia Laís", "role": "Assistente de Atendimento", "level": "Assistente", "lead": 2, "vertical": ["Poker"] },
+
+    { "dept": "Compliance", "name": "Bruna Rocha", "role": "Coordenadora de Compliance", "level": "Coordenador", "vertical": ["Poker"] },
+    { "dept": "Compliance", "name": "Camila Leme", "role": "Analista de Compliance", "level": "Analista", "lead": 0, "vertical": ["Poker"] }
+  ]
+}
